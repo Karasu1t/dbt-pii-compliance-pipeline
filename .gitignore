@@ -1,0 +1,73 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments (Python)
+venv/
+ENV/
+.venv
+/env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# dbt
+target/
+dbt_packages/
+logs/
+dbt/target/
+dbt/dbt_packages/
+dbt/logs/
+profiles.yml
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+.terraform.lock.hcl
+
+# Databricks
+.databricks/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Secrets & credentials
+*.pem
+*.key
+secrets.json
+credentials.json
+
+# Temp files
+*.tmp
+*.bak
+*.log
