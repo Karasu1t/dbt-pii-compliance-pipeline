@@ -52,13 +52,14 @@ Validate the model exists under `dbt/models/staging/` or `dbt/models/marts/`. If
 
 ### 1-2. Run Classification
 
-Invoke `src/pii_classifier/classify.py {model_name}`, which:
-1. Reads the model's compiled column list (`dbt/target/manifest.json`; run `dbt compile` first if stale)
-2. Pulls a bounded sample of rows — from Databricks if a live workspace connection is configured, otherwise from the corresponding `dbt/seeds/*.csv`
-3. Calls the Claude API to classify each column individually, then checks **combinations** of individually-low-risk columns for re-identification risk
-4. Returns a JSON report: `{column, classification, gdpr_basis, confidence, quasi_identifier_group}`
+Do this classification yourself, in this session — do not invoke `src/pii_classifier/classify.py` here. That script exists only for the non-interactive CI check (`pii_compliance_check.yml`), which runs unattended after a PR and therefore needs its own Anthropic API key. Inside a Claude Code session you already are the classifier, and it costs nothing extra to do it directly.
 
-Existing Unity Catalog tags on this table (if any) are also read and shown as the "current state" baseline.
+1. Read the model's compiled column list (`dbt/target/manifest.json`; run `dbt compile` first if stale)
+2. Pull a bounded sample of rows — query Databricks directly if connected, otherwise read the corresponding `dbt/seeds/*.csv`
+3. Classify each column individually (not_pii / direct_identifier / special_category / quasi_identifier), then check **combinations** of individually-low-risk columns for re-identification risk
+4. Look at actual sample values, not just column names — a column named like a generic reference can still hold a government-ID-shaped value; free-text fields can contain embedded PII even when most rows don't
+
+Also read any existing Unity Catalog tags on this table and show them as the "current state" baseline.
 
 ---
 

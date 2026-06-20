@@ -1,0 +1,14 @@
+version: 2
+
+models:
+  - name: marts_customer_360
+    description: >
+      Denormalized customer view intended for BI/dashboard consumption.
+      This is the model that matters most for PII governance — it's the one
+      that would actually reach a public-facing dashboard. Not yet classified
+      — run /pii-scan marts_customer_360.
+    columns:
+      - name: customer_id
+        tests:
+          - unique
+          - not_null

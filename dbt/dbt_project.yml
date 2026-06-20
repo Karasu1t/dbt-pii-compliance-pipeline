@@ -1,0 +1,22 @@
+name: 'pii_compliance_pipeline'
+version: '1.0.0'
+config-version: 2
+
+profile: 'pii_compliance_pipeline'
+
+model-paths: ["models"]
+seed-paths: ["seeds"]
+test-paths: ["tests"]
+macro-paths: ["macros"]
+
+target-path: "target"
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  pii_compliance_pipeline:
+    staging:
+      +materialized: view
+    marts:
+      +materialized: table

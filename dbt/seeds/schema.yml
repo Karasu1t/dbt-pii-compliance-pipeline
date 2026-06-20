@@ -1,0 +1,21 @@
+version: 2
+
+seeds:
+  - name: raw_customers
+    description: Synthetic customer data (Faker-generated, no real PII). See scripts/generate_sample_data.py.
+    columns:
+      - name: customer_id
+        tests:
+          - unique
+          - not_null
+
+  - name: raw_orders
+    description: Synthetic order data (Faker-generated, no real PII). See scripts/generate_sample_data.py.
+    columns:
+      - name: order_id
+        tests:
+          - unique
+          - not_null
+      - name: customer_id
+        tests:
+          - not_null

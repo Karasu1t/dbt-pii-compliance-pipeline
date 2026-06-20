@@ -1,0 +1,21 @@
+version: 2
+
+models:
+  - name: stg_customers
+    description: Staged customer records from the raw_customers seed. Not yet classified for PII — run /pii-scan stg_customers.
+    columns:
+      - name: customer_id
+        tests:
+          - unique
+          - not_null
+
+  - name: stg_orders
+    description: Staged order records from the raw_orders seed. Not yet classified for PII — run /pii-scan stg_orders.
+    columns:
+      - name: order_id
+        tests:
+          - unique
+          - not_null
+      - name: customer_id
+        tests:
+          - not_null

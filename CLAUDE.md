@@ -8,7 +8,9 @@ Always respond in English in this project.
 
 A pipeline that semi-automates GDPR-driven PII governance for a dbt project running on Databricks.
 - dbt (dbt-databricks) → Databricks Unity Catalog → Delta Lake (UniForm / Iceberg-readable)
-- AI classification: Claude API reads dbt model definitions + sample data, proposes PII tags and quasi-identifier groupings
+- AI classification: done two ways, deliberately —
+  - Interactively, inside a Claude Code session (`/pii-scan`): no separate billing, it's covered by the Claude Code session itself
+  - Non-interactively, in CI (`pii_compliance_check.yml`): calls the Anthropic API directly via `src/pii_classifier/classify.py`, since GitHub Actions runs unattended and there's no Claude Code session to lean on. This is the only place an `ANTHROPIC_API_KEY` is actually required.
 - Enforcement: Unity Catalog column tags + masking functions, verified continuously by dbt tests
 - Infrastructure: Terraform (Databricks provider)
 - CI/CD: GitHub Actions (ci / dbt_build / pii_compliance_check / terraform_apply / terraform_destroy)
@@ -35,8 +37,8 @@ The command handles the full workflow in two phases:
 **Phase 1 — Classify before touching any files**
 - Read the target model's compiled columns (via `dbt/manifest.json` and `information_schema`)
 - Pull a bounded sample of rows from Databricks for context
-- Claude classifies each column: not PII / direct identifier / sensitive category (GDPR Art. 9) / quasi-identifier
-- Claude additionally checks **combinations** of low-sensitivity columns for re-identification risk (e.g. `postal_code` + `birth_date` + `gender`), not just single-column keyword matching
+- Claude Code classifies each column directly in this session (no API call, no extra cost): not PII / direct identifier / sensitive category (GDPR Art. 9) / quasi-identifier
+- Also checks **combinations** of low-sensitivity columns for re-identification risk (e.g. `postal_code` + `birth_date` + `gender`), not just single-column keyword matching
 - Full classification table presented for confirmation/adjustment before any file changes
 
 **Phase 2 — Execute one step at a time with confirmation**

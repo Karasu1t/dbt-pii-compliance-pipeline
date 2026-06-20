@@ -1,0 +1,501 @@
+customer_id,full_name,email,phone_number,postal_code,birth_date,gender,national_id_ref,signup_date,loyalty_tier,support_notes
+1,Allison Hill,donaldgarcia@example.net,+1-219-560-0133,94351,1984-08-29,female,13 859 381 3,2024-03-10,silver,"Asked about delivery delay, resolved within 2 days."
+2,Kevin Pacheco,blakeerik@example.com,942-335-1161x55940,50116,1945-10-29,female,85 532 132 0,2022-12-06,bronze,"Asked about delivery delay, resolved within 2 days."
+3,Stacey Ward,janetwilliams@example.org,001-341-431-6475x25534,70511,1990-01-18,female,81 303 833 8,2022-04-13,platinum,"Asked about delivery delay, resolved within 2 days."
+4,William Bowman,gabriellecameron@example.org,505.964.1395,52357,2000-08-16,male,10 877 925 2,2024-09-05,platinum,Inquired about loyalty point balance.
+5,Charles Mcgee,julie69@example.com,(332)887-1012x269,50520,1980-12-27,female,53 204 194 6,2023-10-22,bronze,Inquired about loyalty point balance.
+6,Juan Dunlap,maldonadoamanda@example.com,001-551-446-2704x82814,49510,1992-04-26,male,15 847 570 8,2024-02-29,bronze,"Reported a billing discrepancy, corrected. Customer can be reached directly at 001-380-395-7015x43039."
+7,Rose Spence,davidalvarez@example.net,(848)796-3834,57923,2001-08-22,male,83 296 821 1,2023-09-21,bronze,"Asked about delivery delay, resolved within 2 days."
+8,Austin Smith,briannasmith@example.net,+1-403-910-5183x4738,32351,1993-10-27,female,39 987 203 6,2025-07-03,gold,"Reported a billing discrepancy, corrected."
+9,Brent Jordan,ujenkins@example.org,+1-610-965-1333x87262,33243,1999-12-07,male,30 479 463 3,2021-11-03,gold,Customer requested a refund for a damaged item.
+10,Savannah Garcia,novaksara@example.org,(267)873-6026,35261,2003-06-21,female,78 846 350 2,2025-05-23,platinum,"Reported a billing discrepancy, corrected."
+11,Michael Cross,smoore@example.org,4982050097,67063,1945-11-30,female,97 432 963 0,2022-05-24,silver,Customer requested a refund for a damaged item.
+12,Megan Young,davidashley@example.net,+1-509-616-9985x435,52377,1949-05-14,male,44 167 316 9,2024-09-10,gold,"Asked about delivery delay, resolved within 2 days."
+13,Timothy Walls,ellisyolanda@example.org,783-684-2513,21177,1970-04-07,male,92 569 246 4,2024-03-07,silver,"Asked about delivery delay, resolved within 2 days."
+14,William Roman,contrerasangela@example.net,524-711-8244,27186,1987-03-21,male,84 538 697 6,2025-09-24,gold,"Asked about delivery delay, resolved within 2 days."
+15,Danielle Odonnell,davisrodney@example.com,2053242786,10363,2004-09-24,female,75 605 193 0,2024-12-02,bronze,"Asked about delivery delay, resolved within 2 days."
+16,Andrew Wood,russellwilliams@example.com,4535315869,21800,2006-11-07,male,86 165 494 6,2025-07-09,platinum,Requested invoice reissue for accounting purposes.
+17,Allison Doyle,kimberly63@example.com,(616)507-3375,29720,1942-01-28,female,97 838 217 8,2022-06-06,gold,Inquired about loyalty point balance. Customer can be reached directly at 641-245-8685x01429.
+18,Jeffrey Chandler,samuel81@example.com,001-734-806-0883,09672,2004-12-28,female,68 103 839 4,2026-01-26,silver,Requested invoice reissue for accounting purposes.
+19,Mary Martinez,william65@example.com,001-248-623-6629x946,38107,1954-10-05,male,91 619 723 3,2025-05-24,silver,Inquired about loyalty point balance.
+20,Erica Ramos,williamleon@example.net,(514)589-5134,19814,1942-02-16,female,86 431 600 0,2022-09-09,bronze,Inquired about loyalty point balance.
+21,Samuel Jones,kmercado@example.org,001-967-263-2016x328,73561,1957-05-31,male,40 159 346 9,2025-09-15,bronze,Customer requested a refund for a damaged item.
+22,Robert Contreras,stephanie79@example.net,968.372.7743x48734,94026,1959-11-24,female,78 884 228 2,2022-10-28,platinum,Requested invoice reissue for accounting purposes.
+23,Joshua Taylor,patrickhernandez@example.org,866-858-7603,77057,2004-10-19,male,37 652 873 3,2021-07-24,gold,"Reported a billing discrepancy, corrected."
+24,Laura Woods,kenneth66@example.net,001-489-937-3467x0656,17229,2007-02-27,male,66 629 562 1,2024-02-19,silver,"Asked about delivery delay, resolved within 2 days. Please ship the replacement to 901 Taylor Mountain Apt. 046, Jasonmouth."
+25,Shawn Ramirez,fking@example.com,5802531003,81940,1950-10-30,female,85 325 107 1,2022-02-04,bronze,"Asked about delivery delay, resolved within 2 days. Please ship the replacement to 374 Jackson Rest, Port Loriport."
+26,Alexander Collins,tsanders@example.org,793-814-9190,87207,1965-08-31,male,19 626 343 4,2023-12-30,platinum,"Asked about delivery delay, resolved within 2 days."
+27,Samuel Short,hamiltonmichael@example.com,001-626-728-4987x769,32678,1996-12-15,male,41 903 584 6,2021-11-24,silver,Customer requested a refund for a damaged item. Customer can be reached directly at 537.799.6507x527.
+28,Gina Beard,angela83@example.org,367.683.7770,29546,1967-12-20,male,64 520 578 0,2022-09-06,bronze,Customer requested a refund for a damaged item.
+29,Jackie Tran,ronald85@example.com,001-574-544-3135x182,97311,1973-05-24,male,23 354 296 3,2025-02-01,platinum,"Asked about delivery delay, resolved within 2 days."
+30,Kelly Campbell,wallkenneth@example.com,(640)482-4008,84107,1999-07-10,male,69 355 995 1,2023-12-02,platinum,"Requested invoice reissue for accounting purposes. Please ship the replacement to 477 Peterson Center, Shelleyfort."
+31,Austin Vasquez,hernandezlisa@example.com,831-986-9993,58529,1960-09-08,female,40 270 516 7,2024-05-29,platinum,"Asked about delivery delay, resolved within 2 days."
+32,Keith Brown,mezajared@example.org,912-632-8120x679,04779,1956-03-17,female,31 488 102 6,2024-12-31,gold,"Reported a billing discrepancy, corrected."
+33,Jordan Mcdaniel,kristin93@example.com,683-624-2102,58061,1948-12-03,male,29 294 403 3,2024-11-28,bronze,Requested invoice reissue for accounting purposes.
+34,Terri Mason,mkim@example.org,(959)940-1399x04902,36959,1952-10-22,female,50 158 151 9,2024-05-23,platinum,Requested invoice reissue for accounting purposes.
+35,Katherine Davis,ricky51@example.org,267-946-8071x54516,54666,1944-02-26,female,17 620 182 2,2024-01-22,bronze,"Requested invoice reissue for accounting purposes. Please ship the replacement to 703 Dunn Heights Suite 710, Lake Eric."
+36,Kristen Davis,murraydavid@example.org,448.346.7737x8263,36709,1993-01-03,male,25 683 352 9,2025-09-27,bronze,Requested invoice reissue for accounting purposes. Customer can be reached directly at 784-804-4997x27875.
+37,Frank Lopez,ashleyhall@example.com,7573662702,58212,1947-04-01,male,36 785 833 5,2026-01-07,silver,Inquired about loyalty point balance.
+38,Charles Pitts,charlesharrington@example.com,696-515-8657x80913,98381,1946-08-12,male,68 423 869 1,2026-05-11,bronze,"Reported a billing discrepancy, corrected."
+39,Michele Garcia,heatherberger@example.org,304-855-6238x69222,81727,1986-12-03,female,19 650 318 8,2023-12-15,gold,"Asked about delivery delay, resolved within 2 days."
+40,Crystal Little,ascott@example.com,882-917-5946x4743,14480,1956-08-06,female,41 478 391 2,2024-04-28,platinum,Requested invoice reissue for accounting purposes.
+41,Wendy Phillips,khill@example.net,001-209-674-3953x39421,58280,1942-09-26,female,95 936 667 4,2023-04-16,bronze,"Asked about delivery delay, resolved within 2 days."
+42,Theodore Murphy,ithompson@example.net,(488)542-4745x171,89148,1989-09-18,female,80 259 378 4,2026-05-14,silver,Inquired about loyalty point balance.
+43,Regina Diaz,ismith@example.org,754.596.5137x098,85390,1944-10-07,male,74 600 357 0,2025-08-02,bronze,"Reported a billing discrepancy, corrected."
+44,Elizabeth Ortiz,brandonjohnson@example.com,813-482-6758,54880,1985-01-01,female,10 441 889 2,2025-08-20,gold,"Asked about delivery delay, resolved within 2 days."
+45,Teresa Ramirez,jeff73@example.com,958-350-6431,87371,1954-11-22,male,81 109 214 1,2024-08-30,silver,Requested invoice reissue for accounting purposes. Customer can be reached directly at 5055329318.
+46,Crystal Schroeder,ramireztracey@example.org,+1-742-210-2053,23339,1958-07-06,female,65 230 142 4,2022-02-05,gold,Customer requested a refund for a damaged item.
+47,Brian Brown,gstrickland@example.net,278-239-0847,63282,1998-01-31,female,97 355 782 1,2023-08-06,gold,Requested invoice reissue for accounting purposes.
+48,Micheal Wallace,morriseddie@example.org,899-385-6984x789,92484,1948-03-31,male,89 867 258 3,2024-09-27,silver,"Asked about delivery delay, resolved within 2 days."
+49,Kristen Glenn,ohayes@example.com,376-361-5654x52711,57107,1947-01-13,female,32 854 440 6,2025-02-27,silver,Inquired about loyalty point balance.
+50,Kristie Willis,elizabeth65@example.net,001-360-749-4519x83273,73411,1965-06-18,female,58 993 139 7,2025-04-12,silver,"Asked about delivery delay, resolved within 2 days."
+51,Renee Bruce,lynchdiane@example.net,302-444-5502x296,97621,1983-07-11,male,54 412 940 3,2021-08-14,silver,Customer requested a refund for a damaged item.
+52,Cindy Barnes,eric45@example.net,+1-910-822-9014x767,36305,1955-02-16,male,52 385 985 1,2024-01-11,gold,Inquired about loyalty point balance.
+53,Brian Gregory,trose@example.org,669.600.3432,43508,1948-08-17,male,96 963 649 5,2023-12-14,bronze,Customer requested a refund for a damaged item.
+54,Carl Patel,vincentwhitaker@example.com,860-860-7159,93496,1983-12-31,male,32 694 371 0,2022-11-29,bronze,Requested invoice reissue for accounting purposes.
+55,Vincent Jackson,xcollier@example.org,(313)369-6816x45352,70048,1975-02-22,male,65 720 623 1,2025-12-30,platinum,Requested invoice reissue for accounting purposes.
+56,Nicholas Fuentes,joelthomas@example.org,(992)712-7799,82711,1961-12-18,female,65 101 632 8,2023-08-31,silver,Inquired about loyalty point balance.
+57,Mark Hogan,bellcharles@example.com,200.954.1199x867,75429,1984-10-16,male,89 421 779 1,2023-01-27,gold,Requested invoice reissue for accounting purposes.
+58,Chris Brown,shepherdmary@example.net,482-703-7788,49371,2002-11-20,male,51 512 813 4,2023-05-27,silver,"Asked about delivery delay, resolved within 2 days."
+59,Meghan Williams,cameron18@example.net,(344)692-5192x5462,73760,1966-01-30,male,96 866 278 9,2025-06-04,gold,"Reported a billing discrepancy, corrected."
+60,Meagan Calderon,lucasrodney@example.com,4544235733,10615,1960-07-31,female,48 393 315 6,2025-05-28,gold,"Reported a billing discrepancy, corrected."
+61,Kimberly Rodgers,stanleynancy@example.net,(296)822-2927,48250,1986-06-17,female,75 584 912 2,2022-08-26,bronze,Inquired about loyalty point balance.
+62,Dustin Goodman,pyoung@example.com,435.697.7468x8623,07340,1984-01-25,male,21 938 869 3,2025-11-02,gold,"Asked about delivery delay, resolved within 2 days."
+63,Ashley Singleton,mitchellkathryn@example.com,782.561.3750x606,51116,2008-02-05,female,13 147 350 7,2023-05-04,bronze,"Reported a billing discrepancy, corrected."
+64,Timothy Combs,lacey20@example.com,827.379.0104x3289,38263,1956-08-17,female,99 493 606 6,2022-01-27,silver,"Asked about delivery delay, resolved within 2 days."
+65,Mark Dean,rodriguezrebecca@example.net,+1-708-593-2460,75299,1968-10-17,female,23 897 535 3,2024-10-14,silver,Requested invoice reissue for accounting purposes.
+66,William Jones,myerstheodore@example.net,(754)705-1531x9520,84753,1952-05-16,female,25 567 236 7,2025-05-12,gold,"Reported a billing discrepancy, corrected."
+67,Michael Welch,bryanparsons@example.com,8439030548,33703,1942-12-16,male,80 556 262 7,2024-09-12,platinum,Inquired about loyalty point balance.
+68,Scott Williams,joshua56@example.com,001-876-452-7758x4161,71997,1960-06-11,male,76 596 741 3,2021-12-23,gold,"Reported a billing discrepancy, corrected. Customer can be reached directly at 644-279-6275x70596."
+69,Mark Cox,stephaniethomas@example.net,+1-770-721-3556x90927,58689,1992-05-10,female,44 443 427 8,2024-05-02,bronze,"Asked about delivery delay, resolved within 2 days."
+70,Jennifer Banks,susanjohnson@example.org,386.481.4473x9473,10207,1971-03-17,male,98 256 823 3,2025-12-16,bronze,"Reported a billing discrepancy, corrected."
+71,Brandon Fleming,elizabeth18@example.net,742-725-8313x2370,61764,1995-02-12,male,63 163 311 6,2024-03-22,platinum,Requested invoice reissue for accounting purposes.
+72,Angelica Parker,xfox@example.com,001-412-451-7785,17413,1969-11-19,female,83 489 588 0,2026-01-07,gold,Inquired about loyalty point balance.
+73,Caleb Hernandez,fernandodonovan@example.org,(384)414-3842x498,78070,2004-06-30,male,78 865 852 8,2022-03-27,silver,"Reported a billing discrepancy, corrected."
+74,Michelle Jacobs,bryananthony@example.org,+1-594-839-6907x8447,39486,1971-04-23,male,72 129 498 5,2024-11-28,platinum,"Asked about delivery delay, resolved within 2 days."
+75,Jason Marshall,catherine55@example.net,(962)558-8153x714,18966,1947-01-19,female,89 646 127 6,2022-12-01,bronze,Customer requested a refund for a damaged item.
+76,Luis Wright,lisapeck@example.net,532-578-7747x01687,76961,1964-06-18,female,69 286 151 4,2021-09-19,platinum,Inquired about loyalty point balance.
+77,Stephen Pena MD,booneryan@example.com,001-356-850-6098x3584,66594,1971-02-03,male,53 879 488 4,2024-03-19,platinum,Inquired about loyalty point balance.
+78,Lisa Carr,theresalong@example.com,+1-252-239-8680,18462,1988-12-28,male,12 867 652 0,2025-06-26,gold,"Asked about delivery delay, resolved within 2 days."
+79,Brittany Barry,markaustin@example.org,(794)795-8887x9470,88818,1947-12-03,female,13 353 304 0,2023-07-20,silver,"Asked about delivery delay, resolved within 2 days. Please ship the replacement to 097 Coffey Tunnel Apt. 097, New Cristina."
+80,Sarah Hernandez,anthonyvaughan@example.org,907.256.2636,93008,1949-11-09,female,69 816 362 5,2022-07-02,silver,Requested invoice reissue for accounting purposes.
+81,Matthew Fox,sue78@example.com,+1-654-597-3348,39509,1992-11-27,female,30 418 210 9,2024-12-27,bronze,Inquired about loyalty point balance.
+82,Katherine Castillo,keith98@example.com,(652)640-4157x4733,18493,1947-11-23,male,60 832 303 1,2025-03-03,silver,Customer requested a refund for a damaged item.
+83,Anthony Stein,danawilliams@example.com,271-320-8267x73454,85999,1979-07-05,male,97 714 924 1,2024-02-21,bronze,Inquired about loyalty point balance.
+84,Taylor Gentry,robertmonroe@example.org,(972)440-0499x1547,66589,1972-04-17,male,18 618 763 5,2022-06-06,bronze,"Reported a billing discrepancy, corrected."
+85,Christopher Stevens,jennifer05@example.com,001-832-396-6851,24720,2007-03-23,female,65 470 750 7,2023-11-08,silver,"Reported a billing discrepancy, corrected."
+86,Adriana Reyes,vmolina@example.com,001-690-445-3017,53639,1987-02-14,male,88 927 651 7,2026-01-30,platinum,"Reported a billing discrepancy, corrected."
+87,Patricia Vaughn,michael33@example.org,927.795.6878x3391,10738,2002-11-03,male,51 972 351 1,2022-01-10,gold,"Reported a billing discrepancy, corrected."
+88,Stephanie Harris,franklinbond@example.com,439-871-8707,60374,1978-10-24,male,82 724 784 6,2024-04-04,gold,Customer requested a refund for a damaged item.
+89,Elizabeth Johnson,lisa39@example.org,6658180170,24091,1992-10-03,male,33 599 317 5,2025-04-18,gold,Inquired about loyalty point balance.
+90,Maria Fisher,ywest@example.com,482-551-2868,00956,1991-11-21,male,81 110 629 3,2026-05-11,bronze,"Asked about delivery delay, resolved within 2 days."
+91,Nathan Coleman,pmorrow@example.com,(324)231-0690x331,59016,1981-02-12,male,81 876 346 7,2024-12-24,platinum,"Reported a billing discrepancy, corrected."
+92,Patrick Morales,amberwebster@example.org,(584)639-5995,19278,2007-06-30,female,47 326 514 3,2024-01-27,gold,Requested invoice reissue for accounting purposes.
+93,Donald Hawkins,conniesimmons@example.com,8564856624,99383,1977-01-17,male,64 863 663 5,2022-09-02,gold,"Reported a billing discrepancy, corrected."
+94,Scott Thomas,jmelendez@example.com,(588)226-3435x17518,35688,1966-02-11,male,39 223 838 3,2024-06-28,gold,Customer requested a refund for a damaged item.
+95,Benjamin Ballard,timothybooth@example.com,603-831-7393x6385,61613,1976-10-03,female,34 321 856 7,2023-04-06,gold,Requested invoice reissue for accounting purposes.
+96,Jose Crawford,langjennifer@example.com,655.860.9320,39192,1950-10-31,male,22 952 298 4,2023-02-11,silver,Inquired about loyalty point balance.
+97,Roy Porter,jonathan77@example.com,(252)328-7280,88085,1943-10-07,female,78 229 380 0,2021-06-30,bronze,Requested invoice reissue for accounting purposes.
+98,Mark Jones,albertwagner@example.com,8992770088,02693,1976-06-20,female,91 989 870 7,2022-11-02,bronze,Customer requested a refund for a damaged item.
+99,Alicia Li,ldrake@example.org,682-833-9845,10858,1965-11-01,male,71 551 448 2,2023-06-30,bronze,Inquired about loyalty point balance.
+100,Wanda Perez,valdezmichele@example.org,366-968-7002,57374,1984-04-27,male,24 941 166 6,2023-02-14,platinum,Customer requested a refund for a damaged item.
+101,Valerie Jacobson,hallrachel@example.net,001-474-701-4890,02553,2005-11-06,female,29 252 930 9,2024-05-26,gold,Customer requested a refund for a damaged item.
+102,Michelle Sanders,evansanne@example.net,(785)862-1850x1631,43279,1942-06-25,female,81 882 526 9,2022-10-31,silver,Requested invoice reissue for accounting purposes.
+103,Katherine Kelly DVM,llopez@example.net,(719)343-1142x6265,12496,1940-10-27,male,48 980 702 6,2023-01-03,gold,Requested invoice reissue for accounting purposes.
+104,Derrick Anderson,ryanhawkins@example.net,(810)315-8199x56046,95507,2001-09-29,female,36 740 316 4,2025-12-28,bronze,"Asked about delivery delay, resolved within 2 days."
+105,Laura Jackson,rjackson@example.com,672-512-6464x715,94990,1982-12-20,female,30 102 518 7,2024-06-07,platinum,Inquired about loyalty point balance. Customer can be reached directly at 871.724.0659.
+106,Jeffrey Colon,kevinmorrison@example.net,575.726.5479,49791,1959-07-12,male,99 980 564 1,2025-05-24,silver,Inquired about loyalty point balance.
+107,Timothy Gonzalez,erinpierce@example.net,837.841.6724x342,10195,1971-01-02,female,64 217 657 3,2024-06-15,silver,Inquired about loyalty point balance.
+108,Kimberly Mclean,ystephens@example.com,001-789-811-3529x096,14387,1941-03-08,female,17 269 911 4,2022-10-04,gold,"Reported a billing discrepancy, corrected. Customer can be reached directly at 288.999.3756x79825."
+109,Jason Nixon,guerrajessica@example.com,657-238-7571x7751,93664,1948-04-17,male,44 612 652 7,2025-09-17,platinum,Customer requested a refund for a damaged item.
+110,Megan Martin,zacharyarnold@example.com,+1-267-536-2266,59427,1980-09-26,male,51 718 356 0,2023-05-30,bronze,"Asked about delivery delay, resolved within 2 days."
+111,Christine Goodwin,raylauren@example.net,(755)837-1478,80626,1967-02-28,female,96 941 375 9,2022-01-13,bronze,"Asked about delivery delay, resolved within 2 days."
+112,Jimmy Thompson,samantha91@example.net,(851)834-1252,78675,1949-11-04,male,45 285 699 6,2023-05-21,platinum,Customer requested a refund for a damaged item.
+113,Mark Steele,angelaburns@example.org,(557)890-5072,74108,1974-11-02,male,52 428 786 1,2023-12-10,silver,Inquired about loyalty point balance.
+114,Jennifer Larsen,kjackson@example.org,001-334-304-3842x79788,35613,1993-03-05,male,46 778 510 8,2025-08-01,bronze,"Reported a billing discrepancy, corrected. Customer can be reached directly at (680)778-3613x407."
+115,Angie Grimes,rowejoel@example.net,001-259-762-9233,70268,1959-08-01,male,24 891 513 8,2024-02-28,bronze,Requested invoice reissue for accounting purposes.
+116,Michael Roberts,stephanie81@example.org,001-660-842-2325x36729,49675,1971-03-16,female,34 630 470 9,2024-08-19,platinum,"Reported a billing discrepancy, corrected."
+117,Anna Robertson,heather57@example.com,790-617-5186x36374,44771,1977-09-07,female,44 662 234 4,2022-02-12,platinum,"Reported a billing discrepancy, corrected. Please ship the replacement to 0017 David Walks Apt. 770, Harrisberg."
+118,Elizabeth Baxter,clarence54@example.org,(320)464-3611x037,78315,1955-11-06,female,49 664 114 8,2024-11-12,platinum,Customer requested a refund for a damaged item.
+119,Michael Montoya,ebenson@example.org,861.411.5542,84593,2007-12-27,female,69 220 763 2,2022-03-06,platinum,Inquired about loyalty point balance.
+120,Alejandra Santos,nbell@example.net,001-826-797-3112x1965,18828,1957-04-26,male,63 954 594 7,2024-09-08,silver,"Reported a billing discrepancy, corrected."
+121,Kyle Griffith,kimberly04@example.org,398.236.4037x61379,47830,2003-12-22,male,34 713 620 2,2022-02-15,bronze,Inquired about loyalty point balance.
+122,Laura Diaz,kathrynbest@example.org,6918043006,56019,1988-03-10,male,53 906 619 4,2021-11-16,bronze,Inquired about loyalty point balance.
+123,Lisa Ramirez,christian32@example.net,269-614-6303x16179,87805,1990-11-26,male,29 557 651 7,2025-03-03,gold,Inquired about loyalty point balance.
+124,Michael Miles,tylerreed@example.net,001-642-352-4105x6481,65532,1971-06-03,male,68 429 990 3,2023-04-07,silver,Requested invoice reissue for accounting purposes.
+125,Mr. Jacob Scott Jr.,perezwilliam@example.org,8305756220,42680,1957-05-08,male,15 425 862 7,2026-01-17,platinum,"Reported a billing discrepancy, corrected."
+126,Roger Duncan,shawrachel@example.org,380.961.7445,01545,1965-07-21,female,73 137 229 8,2022-12-03,gold,Customer requested a refund for a damaged item.
+127,Nancy Sanchez,brittany73@example.net,+1-232-706-0385,00692,1992-01-28,male,22 638 567 0,2023-05-07,silver,"Reported a billing discrepancy, corrected."
+128,Elizabeth Harris,robertwoodward@example.org,001-441-803-8657x191,10309,1980-09-18,female,19 580 900 4,2021-10-10,gold,Requested invoice reissue for accounting purposes.
+129,Bianca Carter,sara65@example.com,943.713.2912x127,53783,1948-09-04,female,52 972 790 8,2023-04-04,platinum,Inquired about loyalty point balance.
+130,Jodi Ford,davislindsey@example.com,001-690-635-2135x680,23290,1942-07-31,male,79 136 732 1,2023-06-27,silver,Inquired about loyalty point balance.
+131,Paul Wright,ygarcia@example.org,600-332-3651,03358,2008-04-10,female,65 200 878 1,2022-06-15,platinum,"Asked about delivery delay, resolved within 2 days."
+132,Rhonda Davis,david70@example.org,001-566-470-6625,36543,1959-07-01,female,15 432 915 0,2025-11-19,gold,Inquired about loyalty point balance.
+133,Manuel Sanchez,victor87@example.org,246-826-3838,94003,1964-11-20,female,41 643 521 9,2024-03-09,silver,"Asked about delivery delay, resolved within 2 days."
+134,Dr. Jonathan Price,anthonyharper@example.org,001-240-578-5932x13348,75958,1998-01-11,male,89 799 346 7,2025-06-14,silver,"Asked about delivery delay, resolved within 2 days."
+135,Ryan Bruce,joelstewart@example.net,001-659-405-9929x378,64783,1943-01-18,male,68 361 782 0,2021-09-29,platinum,Inquired about loyalty point balance.
+136,Alicia Woods,samantha32@example.com,001-725-800-2921x851,77311,1947-05-04,female,19 552 453 9,2022-12-22,gold,"Reported a billing discrepancy, corrected."
+137,Christopher Fry,lbanks@example.net,+1-495-439-2644,96030,1940-08-03,male,48 303 493 7,2024-12-22,bronze,"Asked about delivery delay, resolved within 2 days."
+138,Sarah Townsend,whitelucas@example.net,791.472.5135,83887,2000-09-01,male,83 402 816 4,2021-11-28,bronze,"Reported a billing discrepancy, corrected."
+139,Margaret Tanner,nsmith@example.org,001-915-841-0067x626,46537,1977-08-06,female,87 863 608 4,2021-12-21,silver,Requested invoice reissue for accounting purposes.
+140,Sean Curtis,franciscojones@example.org,705-941-1526x2181,92841,1942-07-29,female,91 294 735 4,2026-03-06,silver,Customer requested a refund for a damaged item.
+141,Steve Moore,riveraterri@example.com,001-988-444-4310x698,07645,1965-01-01,female,49 907 551 0,2023-08-09,gold,"Asked about delivery delay, resolved within 2 days. Customer can be reached directly at 897-931-0324x1714."
+142,Matthew Davis MD,nathanjames@example.org,304.777.4349x021,71469,1968-08-14,male,63 279 305 2,2025-04-01,gold,Requested invoice reissue for accounting purposes.
+143,Antonio Hughes,rsheppard@example.com,001-437-341-6089,99747,1971-01-01,male,31 363 944 7,2026-03-18,gold,Inquired about loyalty point balance.
+144,Daniel Lee,hendersonvanessa@example.com,829.745.1168,36703,1975-10-22,male,19 244 872 3,2026-01-19,platinum,Requested invoice reissue for accounting purposes.
+145,Michael Matthews,jrodriguez@example.org,001-799-811-9148,35121,1966-07-07,male,11 370 649 1,2023-11-23,platinum,Inquired about loyalty point balance.
+146,Amanda Hill,christinebecker@example.com,7656307450,41257,1959-07-13,male,84 490 942 5,2023-12-04,bronze,"Asked about delivery delay, resolved within 2 days."
+147,Annette Melton,kevinmanning@example.com,469-313-7367x850,41280,1988-09-19,male,88 326 763 1,2023-06-25,platinum,Inquired about loyalty point balance.
+148,Kelly Carroll,jameswhitaker@example.org,807.305.3457,89783,1942-07-19,female,27 146 138 4,2023-04-30,platinum,"Customer requested a refund for a damaged item. Please ship the replacement to 79855 Mary Green Apt. 406, East Melissaborough."
+149,Maria Byrd,denise80@example.net,6726290349,56050,2001-05-12,male,68 479 786 8,2025-09-21,platinum,Requested invoice reissue for accounting purposes.
+150,Daniel Turner,asilva@example.net,+1-658-699-4417x15454,25189,1950-08-30,female,63 770 201 7,2025-04-17,platinum,Inquired about loyalty point balance. Customer can be reached directly at 8968520744.
+151,Andrew Erickson,matthewreeves@example.net,+1-375-984-2824,17270,1990-11-07,female,66 555 341 5,2025-02-02,bronze,Inquired about loyalty point balance.
+152,Susan Arroyo,destiny35@example.org,001-346-955-4947x1709,26000,1974-07-02,male,17 507 382 3,2025-10-20,bronze,"Reported a billing discrepancy, corrected. Please ship the replacement to 460 Derrick Flats Suite 697, West Michelle."
+153,Bobby Cook,lawrencebrown@example.com,832-992-7129x666,50743,1940-10-13,female,16 905 441 3,2024-02-19,silver,Requested invoice reissue for accounting purposes.
+154,Tiffany Mcclain,andrewsmith@example.net,635.442.1689,09058,1996-06-27,female,85 321 932 3,2022-12-15,gold,"Asked about delivery delay, resolved within 2 days."
+155,Nicholas Carlson,ryan25@example.com,(432)360-3323x098,48550,1988-10-27,female,45 979 248 2,2025-06-05,gold,"Asked about delivery delay, resolved within 2 days. Please ship the replacement to 489 Brittney Causeway Apt. 001, Wallaceville."
+156,Kara Hernandez,turnerdorothy@example.net,549.592.6189x14117,34972,1997-01-03,female,11 466 908 3,2026-05-01,gold,Customer requested a refund for a damaged item.
+157,Jason Martin,slozano@example.com,530-901-1972x18114,39301,1958-06-06,female,26 859 531 8,2021-09-18,bronze,Customer requested a refund for a damaged item.
+158,Shelly Phelps,laurie56@example.net,610-302-2557,49341,1995-11-20,male,75 707 211 7,2022-05-19,silver,Requested invoice reissue for accounting purposes. Customer can be reached directly at (867)946-7621x2021.
+159,Meghan White,nmaxwell@example.org,+1-527-771-6701x45089,68540,1976-01-15,male,92 131 162 7,2024-12-19,platinum,"Reported a billing discrepancy, corrected."
+160,Matthew Wright,elizabeth62@example.net,+1-700-628-7721x753,07100,1974-12-09,male,66 175 182 5,2024-03-20,silver,Customer requested a refund for a damaged item. Customer can be reached directly at (963)217-7971x7751.
+161,Jason Hawkins,petersenlatoya@example.net,+1-948-783-7550x3758,94337,1971-03-29,male,86 643 401 7,2021-12-14,platinum,Customer requested a refund for a damaged item.
+162,April Kelly,amy51@example.org,(372)861-4933,28758,1971-07-19,female,93 766 998 8,2025-05-16,silver,"Reported a billing discrepancy, corrected."
+163,Ashley Perry,bartonshannon@example.net,001-982-470-8086,91178,1979-10-23,female,62 447 947 7,2025-02-12,platinum,"Reported a billing discrepancy, corrected."
+164,James Burke,william66@example.net,001-634-765-4722x698,93807,1990-07-28,male,64 420 781 4,2024-03-26,gold,"Asked about delivery delay, resolved within 2 days."
+165,Daniel Klein,samantha22@example.net,+1-651-858-7996,02174,1976-01-06,male,18 193 951 1,2021-08-04,bronze,"Reported a billing discrepancy, corrected. Customer can be reached directly at (200)634-2442."
+166,Joshua Howard,rgarcia@example.net,+1-838-863-8406,90304,1961-09-23,female,81 161 700 8,2024-03-23,gold,Customer requested a refund for a damaged item.
+167,David Oliver,ogreer@example.net,001-459-389-3347x212,49941,1943-03-26,male,16 394 714 4,2022-11-10,gold,Customer requested a refund for a damaged item.
+168,Christopher Singleton,riverajenna@example.org,7253909479,93258,1962-01-30,female,29 772 593 3,2022-07-25,bronze,Inquired about loyalty point balance.
+169,Barry Wagner,zdaniels@example.org,(233)355-5439x878,88180,1963-12-30,male,24 880 385 9,2022-09-01,silver,"Reported a billing discrepancy, corrected."
+170,Tamara Sanchez,flemingmanuel@example.org,(548)740-8588x7704,67858,1946-01-25,female,87 773 949 4,2021-12-11,bronze,"Asked about delivery delay, resolved within 2 days."
+171,Patricia Ferguson,clarkcrystal@example.org,+1-261-438-6120x75011,33519,1978-06-02,male,53 459 106 2,2024-05-04,silver,Requested invoice reissue for accounting purposes.
+172,David Hughes,bhamilton@example.com,+1-318-609-1901x58144,57868,1966-05-28,female,28 858 748 0,2025-07-30,bronze,Requested invoice reissue for accounting purposes.
+173,Christopher Robinson,irobles@example.com,+1-824-350-8821x0099,40437,1954-10-02,male,68 449 261 5,2025-03-04,gold,Inquired about loyalty point balance.
+174,Christine Whitehead,eugenewalker@example.com,612.390.8781,33359,1947-02-23,female,16 259 261 9,2025-02-03,bronze,Customer requested a refund for a damaged item.
+175,Mr. Carl Rios,mitchellchad@example.org,277-759-4929x95562,32767,1993-11-22,male,72 721 552 6,2025-01-10,gold,"Asked about delivery delay, resolved within 2 days."
+176,Destiny Ward,natalie77@example.com,001-347-281-2914x28341,66977,1983-06-02,female,54 540 213 4,2025-07-12,platinum,Requested invoice reissue for accounting purposes.
+177,Patricia Lewis,arnoldamy@example.net,725.263.9427x8816,87359,1956-09-17,female,38 504 713 0,2026-04-15,bronze,"Asked about delivery delay, resolved within 2 days."
+178,Miss Nicole Taylor,haroldfry@example.net,(775)503-7314,06111,1985-12-06,female,27 882 361 4,2024-01-21,gold,Customer requested a refund for a damaged item. Customer can be reached directly at (467)870-0518x449.
+179,Holly Valdez,blacknicholas@example.org,665.557.7908x27231,20193,1953-03-06,female,26 489 645 3,2023-04-11,gold,Customer requested a refund for a damaged item.
+180,Bailey Hall,jennifer77@example.com,492.460.3029,83016,1975-04-30,female,65 119 570 1,2025-12-02,gold,Requested invoice reissue for accounting purposes.
+181,Christopher Nielsen,kgreene@example.net,5418379772,79254,1950-03-04,male,91 527 396 1,2024-05-18,platinum,Customer requested a refund for a damaged item.
+182,Lisa Dixon,jennifercooper@example.com,+1-891-436-6210x388,79866,1947-01-06,female,89 571 951 5,2023-11-05,bronze,"Reported a billing discrepancy, corrected."
+183,Amanda Bowers,davisdonna@example.net,+1-506-986-5086,50470,1964-04-20,female,65 703 510 8,2025-06-28,bronze,"Reported a billing discrepancy, corrected."
+184,Sara Johnston,eanderson@example.org,349-286-4300,49656,1984-12-22,male,38 441 897 2,2024-11-26,bronze,Requested invoice reissue for accounting purposes.
+185,Jack Moore,jose86@example.net,(994)663-6887x258,40694,1979-10-01,female,54 459 844 2,2025-05-03,silver,"Customer requested a refund for a damaged item. Please ship the replacement to 213 Logan Estates Apt. 386, Laurenton."
+186,Vincent Smith,morrowthomas@example.net,(211)443-5190x66984,84425,1974-01-31,female,87 256 878 1,2021-07-08,silver,"Reported a billing discrepancy, corrected."
+187,Tara Holmes,arthurgreene@example.net,001-739-820-5302x146,53644,1980-04-27,male,97 678 758 9,2024-01-20,gold,Inquired about loyalty point balance.
+188,Andrea Davis,jessica89@example.com,(343)393-7690x426,66452,1960-06-23,female,70 552 746 4,2026-03-15,gold,"Requested invoice reissue for accounting purposes. Please ship the replacement to 947 Hart Trail Apt. 577, South Darrenland."
+189,Richard Robinson,laurengutierrez@example.com,780.543.4165x18275,75698,1958-10-07,male,69 562 138 0,2026-03-15,gold,"Inquired about loyalty point balance. Please ship the replacement to 3334 Jermaine Village, Port Christine."
+190,Brian Mora,waustin@example.net,4756957947,52651,1955-07-28,male,69 694 667 0,2024-05-07,platinum,Requested invoice reissue for accounting purposes.
+191,Robert Mendoza,shawphillip@example.net,001-727-618-7500x36915,25031,1977-10-08,male,87 587 613 2,2022-08-26,bronze,"Reported a billing discrepancy, corrected. Customer can be reached directly at 995.452.7636x5564."
+192,Veronica Parks,lelinda@example.net,(963)622-7026x72885,33396,1978-09-10,female,74 761 276 0,2024-04-21,silver,"Reported a billing discrepancy, corrected."
+193,Michael Brown,thomas17@example.net,445-658-8450x61593,47045,1962-07-29,female,56 481 389 6,2024-01-07,platinum,Inquired about loyalty point balance.
+194,Jillian Miller,steven22@example.net,869-696-1125x35544,58814,1993-07-29,female,90 762 442 1,2026-02-28,gold,Customer requested a refund for a damaged item.
+195,Kelly Cole,ivanjohnson@example.net,941.232.6111,03956,1992-11-21,male,46 358 841 9,2024-02-01,silver,"Inquired about loyalty point balance. Please ship the replacement to 49216 Perez Street, Scottberg."
+196,Ryan Johnson,michelle57@example.com,+1-948-872-8299,69111,1983-12-22,male,49 771 815 6,2024-02-19,silver,Requested invoice reissue for accounting purposes.
+197,Karen Perez,ramosmichael@example.com,(240)908-2547,99522,1972-11-27,female,49 672 485 5,2021-07-05,silver,Requested invoice reissue for accounting purposes. Customer can be reached directly at (849)830-8536x86632.
+198,Bobby Garrett,justin84@example.com,612.924.1797,25114,1962-04-09,male,12 471 416 2,2022-03-23,silver,Inquired about loyalty point balance.
+199,Alison Compton,joseph70@example.org,720-973-5647,91849,1994-04-14,male,34 331 240 2,2023-02-12,bronze,Inquired about loyalty point balance.
+200,Tiffany Brown,ejones@example.org,246.501.3673,60903,1990-06-21,female,74 889 652 8,2021-12-07,bronze,Inquired about loyalty point balance.
+201,Christine Price,sharon20@example.net,+1-581-347-4350,31429,1983-07-04,female,86 485 257 2,2023-02-01,silver,Requested invoice reissue for accounting purposes.
+202,Donald Wilson,albertwilliams@example.net,792.451.3271x9500,92425,1976-12-09,female,66 144 520 5,2022-01-01,silver,"Reported a billing discrepancy, corrected."
+203,Eugene Grant DDS,linda73@example.org,001-565-424-0778x487,71754,1964-02-09,male,39 646 344 4,2025-02-16,platinum,"Asked about delivery delay, resolved within 2 days."
+204,Ronald Rocha,caseymoore@example.com,585-770-8620x959,95004,1944-10-10,male,69 887 388 6,2026-04-21,platinum,"Asked about delivery delay, resolved within 2 days."
+205,Cheryl Vega,chloemorris@example.net,211-881-0220x31731,86736,1973-10-12,female,42 153 756 7,2024-08-01,gold,Requested invoice reissue for accounting purposes.
+206,Amber Walker,smithsamantha@example.net,317.605.8650x9480,10716,2004-09-13,female,46 185 881 2,2026-04-08,gold,"Reported a billing discrepancy, corrected."
+207,Neil Schmidt,jamessandoval@example.net,+1-828-786-1957x6122,86685,1951-03-23,female,65 193 327 7,2026-06-17,gold,Customer requested a refund for a damaged item.
+208,Harold Edwards,megan66@example.net,293-698-3684x57760,78588,1941-07-29,male,74 482 341 6,2022-02-20,bronze,Inquired about loyalty point balance.
+209,Abigail Joyce,melissasmith@example.net,488-689-9210x752,48615,2000-12-17,male,22 959 831 5,2022-09-18,silver,"Asked about delivery delay, resolved within 2 days. Customer can be reached directly at 341-696-9315x727."
+210,Robert James,weeksmatthew@example.com,(713)590-6048x05892,20580,1943-11-26,female,70 559 730 0,2025-02-14,bronze,Customer requested a refund for a damaged item.
+211,Jeremy Larson,walkerkeith@example.com,(625)317-9086,52736,1974-08-04,female,80 844 723 8,2025-05-02,platinum,Customer requested a refund for a damaged item.
+212,Chad Hansen,kfoster@example.org,+1-398-333-1465,88548,1968-08-04,female,48 224 148 3,2023-04-17,platinum,Requested invoice reissue for accounting purposes.
+213,Gregory Rios,gary59@example.com,+1-427-603-3521x103,02301,1963-10-23,female,73 711 648 0,2025-06-27,silver,"Asked about delivery delay, resolved within 2 days."
+214,John Rivera,jamesmills@example.com,+1-679-420-6980,08379,1959-10-13,female,88 461 346 9,2025-05-30,platinum,"Asked about delivery delay, resolved within 2 days."
+215,Amy Pena,jonesdonna@example.net,+1-351-404-6368x15798,26567,1974-07-06,female,77 469 169 8,2023-10-03,bronze,"Reported a billing discrepancy, corrected."
+216,Alison Wright,matthew62@example.org,(655)543-8404x608,20385,1963-09-16,female,91 496 482 4,2023-06-06,bronze,Inquired about loyalty point balance.
+217,Nicholas Meyer,robertberry@example.com,495-878-2329x8324,19526,1985-02-02,male,40 850 772 1,2024-04-15,gold,"Asked about delivery delay, resolved within 2 days. Customer can be reached directly at (251)788-1252."
+218,Jennifer Jenkins,oreese@example.net,523-512-2099x499,30767,1987-03-18,female,97 575 812 7,2023-04-06,silver,"Asked about delivery delay, resolved within 2 days. Customer can be reached directly at 001-472-589-7526x772."
+219,Jason Novak,stephanie33@example.org,827-297-5736,80183,1990-06-21,female,47 306 144 3,2023-05-14,bronze,Inquired about loyalty point balance.
+220,Logan Newton,meyershannon@example.org,588.660.8680,58114,1967-07-15,male,79 584 359 0,2022-12-27,silver,Inquired about loyalty point balance.
+221,Julia Henderson,vaughnrebecca@example.com,+1-271-481-2982x6657,59965,1980-08-10,female,93 439 379 1,2025-01-10,gold,"Reported a billing discrepancy, corrected."
+222,Jesse Wright,jennifermartinez@example.org,001-275-418-6892x686,44435,1978-12-03,male,59 447 291 7,2024-10-05,platinum,Inquired about loyalty point balance.
+223,Sean White,barneskyle@example.com,221-923-0940x7778,31680,1955-03-20,male,20 844 534 1,2024-10-05,platinum,Requested invoice reissue for accounting purposes.
+224,Jeremy Burke,sanchezamy@example.net,+1-683-702-2050x2099,11996,1943-10-20,female,79 400 428 1,2023-07-20,bronze,Inquired about loyalty point balance.
+225,Michael Carr,tammycurry@example.com,3146556168,62211,1949-08-13,male,67 717 834 6,2024-12-09,silver,"Reported a billing discrepancy, corrected."
+226,Joseph Warren,cherylrodriguez@example.net,+1-781-479-4695x4899,81017,1978-09-23,female,55 729 545 4,2024-01-24,bronze,Customer requested a refund for a damaged item.
+227,Katherine White,jeanettekrause@example.org,707-713-9660,73955,1995-04-12,male,56 625 920 2,2022-07-11,bronze,"Asked about delivery delay, resolved within 2 days."
+228,Melissa King,parkerwilliam@example.com,001-901-255-6990x23557,85127,1949-09-12,male,14 229 168 3,2022-03-29,gold,Inquired about loyalty point balance.
+229,Sean Huang,abowers@example.net,7847958803,09179,2006-05-27,female,87 257 795 7,2022-11-13,gold,Inquired about loyalty point balance.
+230,William Sims,ashleyprice@example.net,745-904-6173,40167,1955-03-02,female,83 240 642 5,2022-12-23,platinum,Inquired about loyalty point balance.
+231,Richard Strickland,wallaceangel@example.com,923.857.8452x18230,94044,1999-04-11,female,24 126 853 2,2022-01-16,platinum,Requested invoice reissue for accounting purposes.
+232,Andrew Charles,cookpamela@example.org,340.694.3533x44857,20072,1951-03-06,female,43 893 366 7,2022-01-14,silver,Requested invoice reissue for accounting purposes.
+233,Kristin Garcia,andrea42@example.net,993-221-4958x7020,14385,1966-07-21,male,35 225 238 1,2021-11-23,platinum,"Asked about delivery delay, resolved within 2 days."
+234,Michael Vance,tjensen@example.com,981.679.2171,90216,1984-04-15,male,21 929 798 5,2025-04-19,gold,Customer requested a refund for a damaged item.
+235,Travis Thomas,roberta62@example.net,+1-755-477-0171x57724,67078,1947-06-20,male,48 971 261 2,2025-07-21,gold,Requested invoice reissue for accounting purposes.
+236,Erika Banks,amanda69@example.com,593.882.7615,57563,1979-01-14,female,27 342 909 7,2023-03-06,bronze,Inquired about loyalty point balance.
+237,Carrie Caldwell,mwilson@example.com,281-372-4619x19657,29023,1996-01-10,male,69 922 664 2,2025-11-26,bronze,Customer requested a refund for a damaged item.
+238,Makayla Smith,donnachavez@example.com,(299)873-3549x4651,17219,1998-06-09,male,77 520 887 6,2021-10-11,bronze,"Asked about delivery delay, resolved within 2 days."
+239,Tracy Smith,daniel40@example.org,(896)756-6668x32723,55188,1950-12-16,female,67 577 796 8,2026-06-15,gold,"Asked about delivery delay, resolved within 2 days."
+240,Brandy Jones,thomasnicole@example.net,(921)826-7969x27868,47071,1955-10-26,female,26 543 614 0,2023-08-04,bronze,Requested invoice reissue for accounting purposes.
+241,Jonathan Simon,robert89@example.com,4096751971,61441,1975-08-15,female,30 430 826 3,2024-01-31,gold,Requested invoice reissue for accounting purposes.
+242,Danielle Mccoy,suttonamber@example.net,790-658-0778x7956,38408,1951-11-10,female,42 301 750 8,2024-12-09,gold,"Asked about delivery delay, resolved within 2 days."
+243,Elizabeth Glover,bryan79@example.org,001-304-690-4712,33537,1949-06-24,female,74 756 272 9,2022-11-14,silver,"Asked about delivery delay, resolved within 2 days."
+244,Alexis Rodriguez,reneestevenson@example.net,452.943.7280x512,99166,2008-01-12,male,82 142 945 0,2025-04-26,bronze,Customer requested a refund for a damaged item.
+245,Jeremiah Walsh,beckywilkinson@example.org,+1-841-902-7674x7836,34923,1950-05-04,male,93 315 885 9,2025-10-25,platinum,Requested invoice reissue for accounting purposes.
+246,Timothy Cole,suzanne01@example.net,+1-556-594-5441x4967,68652,1963-05-31,male,90 658 396 4,2024-12-01,platinum,"Asked about delivery delay, resolved within 2 days."
+247,Joshua Chambers,smithconnor@example.org,+1-375-334-4300x91093,11823,1998-09-15,male,48 564 174 0,2022-02-11,silver,"Reported a billing discrepancy, corrected."
+248,Stephanie Knight,pauladominguez@example.com,871-774-6542x1406,08373,1958-01-10,male,36 448 721 2,2025-07-12,gold,Inquired about loyalty point balance.
+249,Benjamin Krause,chelseywhite@example.com,328-263-9174,10058,1945-04-03,male,61 233 878 5,2025-02-07,bronze,Inquired about loyalty point balance.
+250,Alicia Jimenez,fitzpatrickelizabeth@example.com,(856)390-8776,71296,1955-10-29,female,44 560 353 2,2023-05-22,bronze,Customer requested a refund for a damaged item.
+251,Penny Martinez,mathew46@example.org,+1-515-685-1743x2806,91711,1966-12-30,male,88 528 354 2,2021-12-31,gold,Requested invoice reissue for accounting purposes.
+252,Katelyn Mcclure,imoss@example.org,909.937.6184,02652,1942-12-27,female,30 610 627 7,2021-09-29,platinum,Inquired about loyalty point balance.
+253,Amanda Wilson,ibentley@example.org,001-293-410-2707x9032,83425,1943-11-12,female,60 617 568 3,2023-01-01,silver,Requested invoice reissue for accounting purposes.
+254,Joy Jackson,meyersdaniel@example.com,+1-493-713-6565x198,28449,1992-06-08,female,46 606 711 7,2024-06-06,gold,"Requested invoice reissue for accounting purposes. Please ship the replacement to 14262 Tran Mill Apt. 902, Port Melaniefurt."
+255,Alexis Tucker,smithsara@example.net,+1-494-267-2324x8763,78655,1952-09-15,male,27 370 844 5,2023-12-19,platinum,"Inquired about loyalty point balance. Please ship the replacement to 456 Angela Fields, New Tiffanystad."
+256,Victoria Romero,qtownsend@example.org,603-512-7722x005,57474,1957-07-24,female,56 666 395 1,2024-07-19,platinum,Requested invoice reissue for accounting purposes.
+257,Jody Garcia,buckleygregory@example.org,381.713.7995x6353,30356,1947-02-19,male,89 796 725 1,2025-02-25,silver,Customer requested a refund for a damaged item.
+258,Jaime Walker,drichards@example.com,(539)772-6527,35850,1954-03-21,male,81 474 873 2,2022-02-06,silver,Requested invoice reissue for accounting purposes.
+259,Amy Taylor,kellis@example.com,349.829.2983,68890,1973-09-25,female,15 139 240 5,2026-06-12,platinum,Requested invoice reissue for accounting purposes.
+260,Sara Ramirez,pfitzgerald@example.org,869-839-2906x00780,63319,1995-07-12,female,51 727 426 2,2024-12-12,platinum,Requested invoice reissue for accounting purposes.
+261,Jon Miller,steelerichard@example.org,(954)231-0742,60117,1972-01-02,male,85 444 619 8,2022-02-27,platinum,Requested invoice reissue for accounting purposes.
+262,Cathy Savage,apadilla@example.net,565-380-4649,81825,2000-05-13,female,57 439 789 1,2025-02-22,platinum,Requested invoice reissue for accounting purposes.
+263,Tony Leonard,rodriguezmichael@example.net,7555281832,71231,1948-03-10,female,86 585 371 9,2023-11-10,silver,Customer requested a refund for a damaged item.
+264,Lauren Haley,karenhodges@example.com,(348)964-0155x778,93539,1976-08-20,female,77 744 838 9,2025-08-04,platinum,"Asked about delivery delay, resolved within 2 days."
+265,Jodi Richardson,lopeznicole@example.org,462-941-1241,20227,1999-12-20,female,14 686 817 1,2024-01-26,silver,Customer requested a refund for a damaged item.
+266,Elaine Montes,thomasfisher@example.net,+1-904-931-0385x6955,60532,1961-02-22,male,29 522 807 3,2022-02-15,platinum,Requested invoice reissue for accounting purposes.
+267,Carolyn Green,swatson@example.org,(454)472-9284,93314,1987-08-01,male,17 822 241 8,2024-10-18,silver,Requested invoice reissue for accounting purposes.
+268,David Williams,autumn74@example.com,(438)605-5257,16424,2003-01-21,male,77 485 421 2,2023-06-28,platinum,Requested invoice reissue for accounting purposes.
+269,Mr. Jimmy Flores Jr.,deborah47@example.com,001-892-597-5170x28140,58955,1964-10-08,male,96 890 988 4,2023-02-05,platinum,"Asked about delivery delay, resolved within 2 days."
+270,Christie Fox,james18@example.com,+1-818-763-7599x80562,51109,1965-10-27,male,81 405 330 4,2022-11-21,gold,"Asked about delivery delay, resolved within 2 days."
+271,William Sawyer,lewispamela@example.net,(774)326-6299x12347,77922,1991-11-19,male,50 591 457 8,2021-11-27,gold,Inquired about loyalty point balance. Customer can be reached directly at (246)628-7923x26487.
+272,Elizabeth Hansen,ywalker@example.org,(544)271-4627,16145,1992-06-20,male,54 891 923 2,2023-12-06,gold,Customer requested a refund for a damaged item.
+273,Linda Cox,qcunningham@example.net,+1-471-758-9042x90257,21906,1944-01-24,female,54 552 771 4,2023-04-09,platinum,"Asked about delivery delay, resolved within 2 days."
+274,Tina Williams,alyssa18@example.org,001-721-492-8554x45189,02191,1949-10-12,male,81 812 378 2,2022-11-15,bronze,Requested invoice reissue for accounting purposes.
+275,Jennifer Mccall,curtismoore@example.org,389.388.8167,17701,2003-04-05,female,41 151 785 8,2023-11-12,silver,"Asked about delivery delay, resolved within 2 days. Customer can be reached directly at 452-579-8524x0132."
+276,Daniel Zavala,yvazquez@example.org,207-960-3108,16088,2002-04-01,male,70 202 797 2,2021-09-06,bronze,Requested invoice reissue for accounting purposes.
+277,Adam Davis,morajamie@example.org,(450)512-4955,66680,1979-03-30,female,62 768 999 7,2021-12-17,platinum,"Asked about delivery delay, resolved within 2 days."
+278,Alexis Robinson,tamarajackson@example.net,3134875927,47008,2007-03-13,male,51 392 761 0,2023-08-02,bronze,Requested invoice reissue for accounting purposes.
+279,Jennifer Juarez,david18@example.org,654.980.1571x6479,30106,1978-02-18,female,32 527 957 2,2022-12-01,bronze,"Reported a billing discrepancy, corrected."
+280,Chelsea Jones,xcrosby@example.org,8718678112,91600,1980-08-16,female,47 997 138 0,2021-12-21,gold,Requested invoice reissue for accounting purposes.
+281,Vanessa Brown,matthewlarson@example.com,736-974-9946,87883,1981-06-25,male,46 565 756 8,2023-06-27,platinum,"Asked about delivery delay, resolved within 2 days."
+282,Mr. Randy Rodriguez,tracy32@example.org,401-670-2695,82023,1982-11-06,male,44 297 928 1,2025-04-07,gold,"Asked about delivery delay, resolved within 2 days."
+283,Kelly Vasquez,qharris@example.com,784.885.8800x6167,58507,1971-09-22,male,33 114 854 5,2021-08-18,gold,Requested invoice reissue for accounting purposes.
+284,Shannon Turner,travistaylor@example.net,(271)897-8897x7828,35024,1974-02-08,female,32 725 976 6,2026-04-27,platinum,Requested invoice reissue for accounting purposes.
+285,Heather Levine,bryan90@example.org,(259)505-6165x565,32956,1956-06-03,male,95 197 289 2,2023-01-10,platinum,Inquired about loyalty point balance.
+286,Michael Melton,morganandrew@example.com,2767986407,50011,1979-04-02,female,43 492 341 7,2023-01-29,gold,Inquired about loyalty point balance.
+287,John Vazquez,matthewshaw@example.net,629-845-6371x83440,30108,1982-12-09,female,43 769 468 3,2026-04-04,bronze,Customer requested a refund for a damaged item.
+288,Laura Vargas,carlos87@example.com,551.848.4685,53231,1957-07-21,female,61 802 614 4,2024-01-16,bronze,Inquired about loyalty point balance.
+289,Kimberly Ibarra,barbaralewis@example.net,548.496.9083x572,98337,1987-01-25,female,38 236 589 2,2022-12-19,platinum,Requested invoice reissue for accounting purposes.
+290,Fernando Greer,waltersmeghan@example.com,924-993-6312x3034,73878,2007-11-16,male,78 921 780 3,2023-07-30,silver,Requested invoice reissue for accounting purposes.
+291,Christina Nelson,greenlinda@example.net,+1-620-370-0159,53848,2001-06-13,female,77 557 640 5,2024-10-28,bronze,"Requested invoice reissue for accounting purposes. Please ship the replacement to 2319 Alejandra Village, Tylerland."
+292,Bryan Roman,marisa63@example.com,221.923.4764,70423,1965-12-12,female,31 435 974 8,2026-03-18,platinum,Customer requested a refund for a damaged item.
+293,Jeff Vega,natasha25@example.com,001-754-309-0034x864,70612,1999-06-03,male,21 622 556 0,2025-10-02,platinum,"Asked about delivery delay, resolved within 2 days."
+294,Theodore Long,kevin34@example.org,(875)760-4177,94530,1969-03-10,male,82 159 672 7,2026-01-22,gold,Customer requested a refund for a damaged item.
+295,Christopher Green,bellcarrie@example.net,001-357-300-2720x6345,21187,1957-06-10,female,37 692 174 0,2025-01-12,platinum,Inquired about loyalty point balance.
+296,Marie Anderson,usparks@example.com,824.529.5431x6526,03218,2004-12-09,female,18 583 132 4,2026-01-30,platinum,"Asked about delivery delay, resolved within 2 days."
+297,Lori Meadows,sgonzalez@example.org,4693694215,02351,1989-05-01,male,57 491 559 6,2023-08-23,platinum,Customer requested a refund for a damaged item.
+298,Jody Nunez,walkerjames@example.com,476-226-3934x3626,38537,2006-11-05,female,93 980 456 1,2022-08-23,silver,Requested invoice reissue for accounting purposes.
+299,David Aguilar,emiller@example.org,963-766-9411x80053,79979,2004-05-04,female,38 954 103 0,2026-04-21,gold,"Reported a billing discrepancy, corrected."
+300,Nicole Williams,william64@example.com,+1-352-780-9242x87572,93595,1976-07-15,male,78 488 943 3,2022-03-05,silver,"Reported a billing discrepancy, corrected."
+301,Andrew Anderson,julie64@example.com,+1-548-456-2572x870,07653,1956-02-06,male,34 996 842 1,2021-08-23,bronze,"Reported a billing discrepancy, corrected."
+302,Michael Graham,wwilliams@example.net,+1-577-671-2151,24179,1997-03-30,female,40 311 168 1,2025-03-20,bronze,"Reported a billing discrepancy, corrected."
+303,Kristine Alvarado,brandybonilla@example.net,001-392-761-3715x04165,20656,1942-06-07,female,41 858 145 6,2023-10-07,platinum,"Asked about delivery delay, resolved within 2 days."
+304,Karen Fuller,brooke05@example.org,+1-897-359-2304x5018,52780,1957-10-26,female,27 615 396 3,2022-08-31,gold,Requested invoice reissue for accounting purposes.
+305,Jennifer Smith,frankchan@example.com,+1-521-947-6492x5158,58886,2000-09-04,male,40 409 997 2,2023-11-06,silver,"Reported a billing discrepancy, corrected."
+306,Jenny Avila,christina66@example.org,3856732788,61871,1970-03-17,female,81 705 852 2,2026-01-01,platinum,Requested invoice reissue for accounting purposes.
+307,Charles Anderson,mckenzie86@example.com,001-808-310-8186,61404,1985-05-28,male,92 787 490 8,2024-04-22,gold,"Reported a billing discrepancy, corrected."
+308,David Miller,wilsondorothy@example.org,(960)616-4597,45240,2006-03-16,male,58 288 872 8,2025-10-27,platinum,"Asked about delivery delay, resolved within 2 days."
+309,Cody Burgess,monica16@example.net,9066102776,81568,1995-10-05,male,28 925 574 0,2024-07-19,platinum,"Reported a billing discrepancy, corrected."
+310,Tracey Leonard,christopher20@example.org,503-303-7236,39942,1992-10-22,female,59 348 361 3,2022-03-16,gold,Customer requested a refund for a damaged item.
+311,Bruce Barrera,emaynard@example.org,893.934.9605x016,97111,1979-10-26,male,21 648 841 3,2025-02-13,bronze,Inquired about loyalty point balance.
+312,Mrs. Jennifer Palmer DDS,dhall@example.net,3699581467,82119,2004-04-26,female,19 292 923 9,2023-03-14,silver,"Reported a billing discrepancy, corrected."
+313,Alisha Roberts,taylorkim@example.net,795.997.2466,21738,1982-10-02,male,48 115 316 3,2022-11-17,bronze,"Reported a billing discrepancy, corrected."
+314,Mary Anderson,ericvasquez@example.com,243.338.0054x5228,44768,1969-10-01,female,60 345 665 5,2024-07-21,gold,"Reported a billing discrepancy, corrected."
+315,Danny Scott,kristen08@example.com,(389)210-7711,66994,1947-08-21,male,49 367 468 8,2024-08-12,platinum,"Reported a billing discrepancy, corrected. Customer can be reached directly at 752.747.8712."
+316,Barbara Harris,ahammond@example.org,854.582.1456x5328,18588,1994-12-27,male,36 479 420 6,2023-07-14,bronze,Requested invoice reissue for accounting purposes.
+317,Jimmy Phelps,sherry72@example.org,001-481-215-5626x060,83287,2007-02-10,female,12 367 666 9,2025-06-17,platinum,Inquired about loyalty point balance.
+318,Valerie Barnes,jennifer55@example.org,889-526-7389x975,40023,1946-03-14,male,39 488 683 3,2024-02-25,platinum,Requested invoice reissue for accounting purposes.
+319,Nathan Hobbs,jason88@example.com,752.600.8943x46810,82681,1974-12-23,male,42 881 941 7,2022-01-31,platinum,"Reported a billing discrepancy, corrected."
+320,Teresa West,chaveztonya@example.net,001-498-893-5449,68614,1990-08-14,male,31 243 837 8,2021-12-28,platinum,"Asked about delivery delay, resolved within 2 days."
+321,Cheryl Osborne,tgarcia@example.com,(811)606-2737x15869,77086,1974-05-22,female,77 134 959 1,2023-08-01,bronze,Customer requested a refund for a damaged item.
+322,Timothy Burns,jcolon@example.net,(977)228-8137,98345,1951-02-18,female,18 824 254 0,2024-04-05,silver,Requested invoice reissue for accounting purposes.
+323,Barbara Phelps,martinezashley@example.org,221.654.5447x02296,37657,1955-02-16,female,89 753 782 9,2025-07-24,platinum,"Reported a billing discrepancy, corrected. Customer can be reached directly at 701.885.1067x9497."
+324,Nathan Obrien,williammurray@example.com,+1-972-651-9966x36580,85162,1946-06-27,female,12 642 839 4,2022-04-17,gold,Customer requested a refund for a damaged item.
+325,Mark Ingram,ann18@example.org,298.390.9837,86779,2004-02-16,male,32 209 198 8,2022-05-13,silver,"Asked about delivery delay, resolved within 2 days."
+326,Richard Sanchez,imiller@example.net,669-307-0562x60856,15527,2007-02-03,male,55 373 914 6,2024-03-04,bronze,Inquired about loyalty point balance.
+327,Clayton Tate,kristopherrussell@example.org,7954200461,54610,2001-03-11,male,82 349 813 3,2022-10-03,gold,Customer requested a refund for a damaged item.
+328,Stephanie Williams,karenwillis@example.com,586.214.0578x61706,35780,1978-02-22,female,21 515 488 6,2024-05-24,platinum,Customer requested a refund for a damaged item.
+329,Phillip Pearson,kevinrussell@example.org,+1-283-925-8238x6870,81861,1960-02-20,female,20 611 965 6,2026-04-29,gold,Requested invoice reissue for accounting purposes.
+330,Timothy Olson,mary65@example.net,698.340.2891,52314,1987-12-17,female,77 143 335 3,2025-08-14,platinum,"Inquired about loyalty point balance. Please ship the replacement to 3985 Reid Terrace Suite 435, Jasonmouth."
+331,Michael Lucas,lynchadam@example.org,+1-826-787-6811x80715,51193,1952-07-07,male,79 677 773 0,2025-04-22,silver,"Inquired about loyalty point balance. Please ship the replacement to 75370 Julia Trace, Erinstad."
+332,Robert Garrett,jimsnyder@example.com,6479930361,22845,1977-12-27,female,60 178 406 2,2024-10-06,silver,Requested invoice reissue for accounting purposes.
+333,Melanie Cunningham,chapmanjulie@example.org,293-884-3089x487,84513,1986-03-28,male,96 653 439 6,2024-09-18,silver,Customer requested a refund for a damaged item.
+334,Erica Richard,rhill@example.net,275.880.3046x875,26008,1963-03-25,male,16 200 547 3,2025-11-12,bronze,Inquired about loyalty point balance.
+335,Wanda Perez,prosario@example.org,(754)611-0760,32895,1947-10-20,male,51 130 749 4,2022-08-28,platinum,"Reported a billing discrepancy, corrected."
+336,Anthony Cook,sherryparsons@example.net,217.991.1006x512,07682,1960-12-19,male,65 290 796 9,2024-08-06,platinum,Customer requested a refund for a damaged item.
+337,Michael Hansen,melissa61@example.net,001-263-999-0767x69915,68293,1962-10-14,male,41 830 175 1,2022-06-05,gold,"Asked about delivery delay, resolved within 2 days."
+338,Kurt Jones,rebeccamartinez@example.net,656-879-7232x002,67757,2005-09-24,female,59 424 469 1,2025-03-28,bronze,Customer requested a refund for a damaged item.
+339,Stephen Rowe,terrancemorrison@example.com,(508)592-0388x065,84459,2002-03-31,male,56 879 376 1,2025-05-23,silver,Customer requested a refund for a damaged item.
+340,Michael Neal,vgreene@example.net,001-259-946-5217,29258,2003-01-09,male,81 668 624 6,2024-08-29,bronze,"Customer requested a refund for a damaged item. Please ship the replacement to 9337 Aguirre Lane, South Jack."
+341,Heidi Jones MD,thomasscott@example.net,001-650-403-3423,45041,1998-02-06,male,59 112 398 6,2022-09-11,platinum,Customer requested a refund for a damaged item.
+342,Christopher Green,smitherica@example.com,+1-315-334-7355x2896,19432,2000-06-29,female,83 633 273 6,2022-02-12,silver,"Asked about delivery delay, resolved within 2 days."
+343,Joseph Benson,carol30@example.net,001-438-942-5304,27926,1989-12-03,male,73 249 164 2,2025-05-22,platinum,Inquired about loyalty point balance.
+344,Lisa Jackson,ppotter@example.net,(878)272-5587x774,27659,1955-05-25,male,19 469 357 3,2022-06-24,platinum,Requested invoice reissue for accounting purposes.
+345,Jennifer Torres,xduncan@example.com,+1-212-914-7853,67644,1982-09-14,male,23 238 411 0,2023-08-06,platinum,Inquired about loyalty point balance.
+346,Jason Ballard,joshua02@example.com,341.651.4888,30351,1947-02-28,male,52 550 442 6,2021-10-27,silver,Inquired about loyalty point balance.
+347,Curtis Gonzalez,john43@example.net,+1-928-440-4456x690,52602,1955-12-11,female,71 421 281 6,2025-01-30,gold,Inquired about loyalty point balance.
+348,David Matthews,dsharp@example.com,253-766-3778,18713,1979-09-27,male,83 900 348 5,2022-02-08,platinum,Inquired about loyalty point balance.
+349,Alexandra Cochran,matthew66@example.net,001-868-845-9090x22599,27266,2004-12-23,male,56 216 677 3,2021-10-13,silver,Requested invoice reissue for accounting purposes. Customer can be reached directly at (237)915-9741x2182.
+350,Cristian Pruitt,ocampbell@example.com,+1-481-870-5802x56621,63186,1991-01-01,female,66 916 398 1,2023-05-30,platinum,"Reported a billing discrepancy, corrected. Customer can be reached directly at 623.546.7299."
+351,Melinda Hill,rittersean@example.com,+1-938-759-7779x014,92292,1997-10-07,female,42 774 257 6,2025-06-05,platinum,Customer requested a refund for a damaged item.
+352,Rodney Horn,nwright@example.net,(576)929-1603x24841,54408,2007-12-13,male,84 510 647 8,2024-03-25,platinum,Requested invoice reissue for accounting purposes. Customer can be reached directly at (911)285-6724x380.
+353,Michael Brady,zcooper@example.org,(500)941-2577x7118,18884,1972-06-24,female,23 887 354 5,2022-11-10,silver,Requested invoice reissue for accounting purposes. Customer can be reached directly at (820)491-2418.
+354,Phillip Byrd,scottthompson@example.net,9832708164,78908,1940-10-13,male,65 208 110 1,2025-04-30,gold,"Asked about delivery delay, resolved within 2 days."
+355,Tanya Brooks,jamessmith@example.org,8533131220,43380,1962-05-30,female,67 483 500 7,2024-08-07,silver,Inquired about loyalty point balance.
+356,Taylor Foster,nmartinez@example.org,(652)706-5063x731,06260,1945-01-17,male,23 402 525 1,2022-07-23,bronze,"Asked about delivery delay, resolved within 2 days."
+357,Kyle Bird,marquezkylie@example.net,(741)995-6252,09350,1963-04-04,male,68 903 311 8,2024-07-04,platinum,Inquired about loyalty point balance.
+358,Janet Davidson,wesleybush@example.org,309.214.3639,18530,1965-12-08,male,99 563 426 1,2022-12-12,gold,Customer requested a refund for a damaged item.
+359,Dan Johnson,vstevenson@example.org,250-586-4035x533,90593,1987-10-25,female,12 969 451 1,2022-07-30,silver,"Asked about delivery delay, resolved within 2 days."
+360,Kelly White,browntravis@example.org,5233212983,56369,1989-10-07,female,52 673 536 7,2023-01-09,silver,"Reported a billing discrepancy, corrected."
+361,Danielle Thompson,kevinray@example.net,947.815.6627,66730,1981-11-27,female,91 773 542 6,2023-08-19,bronze,Requested invoice reissue for accounting purposes.
+362,Troy Olson,fsimmons@example.com,+1-982-382-4674x746,44178,1949-10-05,male,85 539 498 0,2023-10-24,silver,"Asked about delivery delay, resolved within 2 days."
+363,Colton Smith,travis66@example.net,(567)849-1601x692,33958,1992-11-30,female,83 204 918 8,2025-03-23,silver,Inquired about loyalty point balance.
+364,Michael Reid,heather66@example.net,937.405.0249,33831,1957-04-17,male,24 368 786 7,2024-05-10,gold,Requested invoice reissue for accounting purposes.
+365,Candice Wilson,newmansabrina@example.com,001-891-683-6264x488,96699,1968-06-16,male,85 216 456 5,2025-11-06,platinum,Requested invoice reissue for accounting purposes.
+366,Ann Fields,lisa43@example.net,(440)427-0116x8646,49607,1953-02-21,male,88 704 186 2,2022-02-19,gold,Customer requested a refund for a damaged item.
+367,Mr. Brian Bradley,jacobbrown@example.org,001-334-767-9121x41614,04389,1980-04-16,female,33 482 810 2,2023-11-09,platinum,"Reported a billing discrepancy, corrected."
+368,Ashlee Brown,ortegakristina@example.org,938-706-9847,79717,1969-09-02,male,64 290 598 8,2023-04-27,silver,Requested invoice reissue for accounting purposes.
+369,Yvonne Montoya,elizabeth69@example.org,(551)707-6209x184,59734,1982-07-08,male,27 291 422 7,2024-10-04,bronze,Inquired about loyalty point balance.
+370,Jason Lopez,allen50@example.net,573-497-6915x67164,68665,2000-01-20,male,27 299 934 6,2025-05-22,platinum,"Reported a billing discrepancy, corrected."
+371,Amanda Jimenez,turneremily@example.net,827.217.8333x211,21503,2003-08-22,male,66 600 271 1,2023-02-05,bronze,"Asked about delivery delay, resolved within 2 days."
+372,Douglas Ball,qlynn@example.org,+1-828-571-5399x15668,29802,1958-02-01,male,38 650 395 2,2022-12-02,platinum,Requested invoice reissue for accounting purposes.
+373,Gerald Vargas,juliewilson@example.com,(556)890-4098,56036,1962-03-15,male,80 623 215 9,2023-04-16,bronze,Inquired about loyalty point balance.
+374,Rebecca Meyer,danielsmith@example.com,324-637-7294x20954,93106,1979-07-01,male,79 942 874 0,2024-08-14,platinum,Requested invoice reissue for accounting purposes.
+375,Eddie Levy,zavalamason@example.net,830.727.6420,55870,1986-07-25,male,23 853 949 3,2026-06-02,gold,Customer requested a refund for a damaged item.
+376,Jeanne Rose,justin38@example.com,425-990-4729,91721,1973-04-10,male,21 549 986 1,2025-12-14,silver,"Asked about delivery delay, resolved within 2 days."
+377,Robert Gonzalez,coxmelissa@example.org,+1-826-462-0157x20185,82679,1989-08-07,male,88 747 538 2,2022-09-09,silver,"Asked about delivery delay, resolved within 2 days."
+378,James Turner,denisebennett@example.net,+1-517-264-7501x11178,77420,1979-06-07,female,82 459 645 4,2024-04-30,silver,Inquired about loyalty point balance.
+379,Patrick Bauer,patrickcooke@example.net,(949)321-5182x60688,68514,1997-05-24,male,47 686 373 8,2024-02-28,bronze,"Asked about delivery delay, resolved within 2 days."
+380,Marissa Molina,tammymerritt@example.org,+1-320-687-5102x932,99207,1942-11-06,male,17 383 987 2,2026-05-14,silver,"Asked about delivery delay, resolved within 2 days. Customer can be reached directly at 445.982.6034x08487."
+381,Kelly Andersen,catherine83@example.net,503-703-2432,36859,1949-03-16,female,96 502 601 2,2024-07-29,gold,"Reported a billing discrepancy, corrected."
+382,David James,ricardomiller@example.com,+1-462-783-1435x98926,57337,1966-03-27,female,91 913 887 1,2026-04-15,platinum,Requested invoice reissue for accounting purposes.
+383,Devin Schmidt,ojones@example.org,(354)423-4016x361,69507,1989-12-29,male,68 599 435 9,2022-12-31,bronze,Customer requested a refund for a damaged item.
+384,Katherine Rice,andrea91@example.org,(956)425-8896,34456,1941-02-10,male,91 780 814 5,2024-01-13,bronze,Requested invoice reissue for accounting purposes.
+385,Cameron Gray,brian53@example.net,+1-567-627-5784x468,83814,1998-10-22,male,37 606 374 5,2026-03-15,gold,Inquired about loyalty point balance.
+386,Erik Davis,jonesjohn@example.org,(490)914-8706,65749,1975-06-28,female,82 972 596 5,2026-06-16,bronze,Customer requested a refund for a damaged item. Customer can be reached directly at +1-716-509-3068.
+387,Mary Knapp DVM,lawsontami@example.net,001-783-321-5285x06762,44797,2002-08-16,female,25 978 261 7,2022-09-18,platinum,Customer requested a refund for a damaged item.
+388,Pamela Wilson,timothy43@example.org,001-996-734-8079x7050,39606,1964-07-13,male,35 805 235 4,2021-06-28,silver,Inquired about loyalty point balance. Customer can be reached directly at 001-826-350-1673x1882.
+389,Adriana Hammond,jeremy65@example.com,(262)784-1772x256,93459,1953-12-18,male,20 480 780 2,2022-05-31,bronze,"Reported a billing discrepancy, corrected."
+390,James Manning,martinjames@example.com,+1-341-267-8725x68621,17032,1951-01-17,female,64 771 193 1,2023-12-19,bronze,"Asked about delivery delay, resolved within 2 days."
+391,Cynthia Gregory,russell90@example.com,344.671.6392x8234,92376,1957-04-15,female,85 331 631 7,2025-07-27,bronze,Customer requested a refund for a damaged item.
+392,Michael Patrick,jacobbond@example.net,+1-523-312-6043x2609,07179,1966-05-01,female,64 810 235 7,2024-02-03,bronze,"Asked about delivery delay, resolved within 2 days."
+393,Veronica Walker,gmendoza@example.com,+1-204-214-5456x3502,07333,1985-05-18,female,23 420 476 4,2023-01-27,silver,"Reported a billing discrepancy, corrected."
+394,Douglas Obrien,flopez@example.com,541-610-8255x59895,28030,1980-03-14,female,92 793 246 1,2021-11-25,bronze,Requested invoice reissue for accounting purposes.
+395,Mark Guzman,willisrhonda@example.net,937.511.8954,70435,1989-06-24,male,54 839 318 2,2021-09-07,platinum,Requested invoice reissue for accounting purposes.
+396,Joshua King,patricia71@example.com,476-688-0294,06457,2005-06-18,female,21 202 243 1,2021-10-08,platinum,Inquired about loyalty point balance.
+397,Cheryl Olsen,gcohen@example.org,(578)468-6694,00972,1951-05-07,male,27 353 383 1,2022-07-21,silver,Requested invoice reissue for accounting purposes.
+398,Sherry Gibbs,ugordon@example.net,643-244-8123x083,84336,1950-07-17,male,98 127 968 4,2025-11-19,silver,Requested invoice reissue for accounting purposes.
+399,Debra Gibbs,veronicaclark@example.org,8596551842,43051,2007-06-19,female,60 402 761 0,2024-08-05,silver,"Reported a billing discrepancy, corrected."
+400,Henry Cross,gregory08@example.net,001-891-464-9837x35439,58966,1956-03-23,female,73 753 708 1,2025-02-04,bronze,Inquired about loyalty point balance.
+401,Steven Davis,stephenochoa@example.org,897.524.0422,09604,1950-03-24,female,59 981 959 9,2023-08-07,platinum,Inquired about loyalty point balance.
+402,Matthew Powell,jessicamorton@example.net,366-601-0023,19196,2004-04-16,female,70 888 174 0,2024-06-18,bronze,Customer requested a refund for a damaged item.
+403,Alexandra Conner,melissa13@example.org,397.224.5723x0848,06337,1947-06-17,female,17 908 507 8,2022-12-13,gold,Requested invoice reissue for accounting purposes.
+404,Sara Thomas,andrewsimmons@example.org,(343)761-7213x145,16013,1964-12-24,male,99 511 184 8,2026-02-02,silver,"Inquired about loyalty point balance. Please ship the replacement to 92268 Greene Springs, Hernandezport."
+405,Donna Hutchinson,sabrina54@example.net,302-325-2677,76240,1969-07-14,female,29 649 434 6,2025-02-05,bronze,Inquired about loyalty point balance.
+406,Frank Anderson,fgomez@example.com,569.852.3668x7887,11460,1979-12-22,female,17 350 188 6,2023-07-29,bronze,"Reported a billing discrepancy, corrected."
+407,Melissa Goodman,youngaaron@example.org,(887)521-0552x472,28122,1996-10-04,female,49 782 859 2,2021-09-29,bronze,Customer requested a refund for a damaged item.
+408,Victor Padilla,squinn@example.com,(301)591-7920x252,10602,1941-04-25,female,30 608 455 8,2025-08-15,gold,"Asked about delivery delay, resolved within 2 days."
+409,Preston Harrison,kaitlinhale@example.com,465.270.4120x0928,52456,1997-02-02,male,25 889 130 5,2024-11-12,platinum,Inquired about loyalty point balance.
+410,Kristen Gallegos,jenna62@example.com,886-423-6903,98280,2006-11-01,male,83 742 178 7,2024-06-28,platinum,Requested invoice reissue for accounting purposes.
+411,Michael Woods,kwilcox@example.org,(663)441-1159x503,71485,1947-09-16,male,82 270 476 2,2022-07-11,gold,Customer requested a refund for a damaged item.
+412,Theodore Lopez,daniellejohnson@example.com,399-609-7005,01612,2007-02-22,female,39 858 621 0,2025-03-23,bronze,Customer requested a refund for a damaged item.
+413,Kathryn Edwards,iswanson@example.net,+1-615-468-1820x96790,20363,1986-11-14,male,56 492 253 2,2021-11-09,bronze,Requested invoice reissue for accounting purposes.
+414,Tiffany Hall,lindseypena@example.net,(688)798-5725,82220,1998-09-03,male,38 429 354 6,2023-08-15,gold,Inquired about loyalty point balance.
+415,Patricia Hughes,wendylawson@example.org,001-371-902-4817,41620,1952-01-04,male,25 614 789 0,2022-12-11,silver,"Asked about delivery delay, resolved within 2 days."
+416,Kenneth Gomez,whitekelsey@example.com,447.921.9705x4669,48569,1975-04-26,female,61 170 998 7,2024-08-03,gold,Inquired about loyalty point balance.
+417,Bradley Gutierrez,rbaker@example.org,+1-303-580-2146x296,51386,1999-11-29,male,11 477 305 4,2024-10-23,gold,Requested invoice reissue for accounting purposes.
+418,John Nichols,lrodriguez@example.net,966-536-5155,92551,1990-11-16,male,85 605 891 3,2022-01-13,silver,"Asked about delivery delay, resolved within 2 days. Customer can be reached directly at 208.727.2359x096."
+419,Veronica Lewis,mirandacisneros@example.net,(544)621-2146x14768,24628,1996-12-11,female,39 654 454 0,2021-12-04,gold,Customer requested a refund for a damaged item.
+420,Gloria Mullins,jamesmcmahon@example.com,482.765.9608x9319,87541,2007-07-17,male,49 206 310 8,2026-02-28,silver,"Reported a billing discrepancy, corrected."
+421,Nancy Stewart,peggypeck@example.com,816-448-0727x91033,79267,1966-02-21,female,28 828 386 1,2023-03-16,bronze,"Asked about delivery delay, resolved within 2 days."
+422,Valerie Ray,woodmichael@example.com,381-477-6655x8685,60639,1969-08-06,male,99 481 569 1,2022-05-08,bronze,Requested invoice reissue for accounting purposes. Customer can be reached directly at +1-328-266-4649x111.
+423,Jennifer Crawford,schultzwesley@example.org,+1-846-833-7861x37157,01497,2004-05-12,female,85 681 163 6,2025-05-18,silver,"Asked about delivery delay, resolved within 2 days."
+424,Debra Hopkins,mary63@example.org,(800)502-5895x52963,81276,1984-04-15,male,60 817 951 5,2025-08-10,gold,"Reported a billing discrepancy, corrected."
+425,Laura Anderson,lmadden@example.com,782-563-1281x96482,12724,1946-10-23,female,35 239 898 9,2023-08-27,bronze,"Asked about delivery delay, resolved within 2 days. Customer can be reached directly at +1-492-509-8196x0275."
+426,Courtney Lee,jessicaroman@example.com,001-440-641-2091x17911,34841,2001-04-20,male,50 516 223 8,2021-12-05,gold,"Asked about delivery delay, resolved within 2 days."
+427,Isaiah Massey MD,apope@example.org,213.366.5722x4029,45433,2008-01-16,male,43 972 222 1,2023-11-20,silver,Inquired about loyalty point balance.
+428,Kimberly Moore,sara39@example.org,+1-208-782-3513,18662,1955-05-31,female,37 955 977 5,2025-02-07,silver,Customer requested a refund for a damaged item.
+429,Debra Olson,baileyandrea@example.com,676.486.3423x461,27479,2005-04-28,male,60 625 150 4,2023-11-27,gold,"Asked about delivery delay, resolved within 2 days. Customer can be reached directly at 769.745.9196x639."
+430,Sabrina Cole,rubiojohnny@example.com,398-556-0125x6253,86609,1965-09-27,male,81 866 663 3,2022-03-10,bronze,"Reported a billing discrepancy, corrected. Please ship the replacement to 05053 Bradley Islands Apt. 816, Carolynhaven."
+431,Justin Moran,berrydebbie@example.net,001-965-453-3077x04611,79331,1962-09-11,female,11 163 950 3,2023-05-19,silver,"Asked about delivery delay, resolved within 2 days."
+432,Dominique Schneider,buckjustin@example.com,8886050171,36503,1962-01-14,male,97 745 760 1,2023-03-12,gold,"Customer requested a refund for a damaged item. Please ship the replacement to 579 Phillip Square, Snyderville."
+433,Teresa Garcia,brandonsmith@example.org,663-321-3580x04010,35068,1962-11-11,female,92 554 928 2,2024-07-12,bronze,Inquired about loyalty point balance. Customer can be reached directly at (342)529-7125x2967.
+434,Mary Bray,kendra73@example.org,241-558-3311x703,61862,1996-02-16,female,31 687 543 6,2022-05-28,platinum,Customer requested a refund for a damaged item.
+435,Daniel Garza,kathleen47@example.net,(581)823-5679,25136,1945-02-18,male,32 462 319 2,2023-07-31,gold,Inquired about loyalty point balance.
+436,Tiffany Ray,thomasnancy@example.net,930-772-4078,35310,1948-07-06,female,14 728 734 9,2024-03-20,silver,Inquired about loyalty point balance.
+437,Daniel Sanders,dromero@example.com,651-906-6343x629,68477,1969-12-13,male,17 189 386 6,2024-11-14,silver,"Reported a billing discrepancy, corrected."
+438,Tina Robinson,jacobsonbarbara@example.org,381-543-9666,96697,1996-07-03,female,90 921 656 0,2024-12-03,platinum,Inquired about loyalty point balance.
+439,Christopher Harris DDS,jessica12@example.net,001-497-243-2512x257,87799,1972-09-27,male,54 679 614 5,2023-02-19,platinum,Inquired about loyalty point balance.
+440,Dennis Jones,wheelertara@example.net,5734710094,99459,1950-06-08,male,86 324 130 4,2021-12-07,bronze,"Reported a billing discrepancy, corrected."
+441,Noah Chavez,veronica47@example.com,(270)454-5897x148,54282,1998-09-11,female,30 202 353 3,2024-10-05,gold,Requested invoice reissue for accounting purposes.
+442,Jonathan Sanchez,vhoward@example.org,761.748.7824,51753,1980-07-12,female,38 689 966 6,2026-03-12,gold,"Asked about delivery delay, resolved within 2 days."
+443,Connor Riley,mary16@example.com,001-654-410-7272,40300,1973-07-28,male,99 467 705 0,2021-10-15,gold,Requested invoice reissue for accounting purposes.
+444,Jesse Robinson,brownkevin@example.com,(400)542-5488x214,57130,1980-04-06,female,73 655 416 2,2021-11-13,platinum,"Customer requested a refund for a damaged item. Please ship the replacement to 75366 Rasmussen Courts, Samanthaport."
+445,Jeffrey Liu,feliciagonzalez@example.org,(483)944-1497x82661,91482,1961-10-08,female,12 639 589 0,2026-02-21,gold,Requested invoice reissue for accounting purposes.
+446,Julie Patterson,dali@example.org,+1-706-412-9439,81882,1977-05-30,female,53 834 281 5,2024-04-17,bronze,"Customer requested a refund for a damaged item. Please ship the replacement to 62607 Combs Corner Apt. 415, Port Kellyfort."
+447,Sharon Martinez,mileszachary@example.net,001-272-432-4407x9311,79641,2000-04-20,female,77 981 473 1,2024-01-24,gold,"Reported a billing discrepancy, corrected."
+448,Brian Johnson,hmyers@example.com,(472)438-4979x1620,98097,1985-03-05,male,48 430 239 2,2022-04-27,platinum,"Reported a billing discrepancy, corrected."
+449,Kimberly Alvarez,keith19@example.com,(346)861-7662x047,01945,1979-12-11,female,81 810 728 5,2021-08-20,silver,Requested invoice reissue for accounting purposes.
+450,Mary Wallace,sydney77@example.com,3254883586,86473,1950-10-06,male,49 851 805 4,2024-09-29,silver,"Asked about delivery delay, resolved within 2 days."
+451,Julia Trevino,joshuafarmer@example.com,(717)867-9298x8425,09357,1943-07-10,male,82 133 286 9,2025-09-22,gold,Requested invoice reissue for accounting purposes.
+452,Brent Rodriguez,omorris@example.net,312.266.1094,98796,1945-06-04,female,73 244 439 1,2025-04-13,silver,Inquired about loyalty point balance.
+453,Sara Mclean,daniel76@example.org,+1-598-333-4774x3326,76799,1942-02-12,female,91 190 941 5,2026-04-07,platinum,Customer requested a refund for a damaged item.
+454,Andrew Taylor,wardricky@example.net,752-787-3397,81566,2001-08-26,female,98 169 458 4,2025-09-25,bronze,Customer requested a refund for a damaged item. Customer can be reached directly at 676-361-9128.
+455,David Guzman,andrew44@example.com,001-651-824-1893x898,81588,1944-04-26,male,31 523 604 6,2024-12-14,gold,Requested invoice reissue for accounting purposes.
+456,John Lowery,denise05@example.com,235-702-3850x371,09776,2005-01-22,male,83 766 876 3,2024-06-15,silver,"Reported a billing discrepancy, corrected. Please ship the replacement to 724 Dalton Parks, Lake Michael."
+457,Richard Walter,andrewbrown@example.org,+1-496-808-7066,92426,1969-06-29,male,12 426 367 1,2022-02-25,bronze,Inquired about loyalty point balance.
+458,Steven Haas,michael56@example.org,231.290.3689,94850,1957-06-18,male,30 849 176 8,2021-09-30,bronze,Inquired about loyalty point balance.
+459,Jeffrey Campbell,michael34@example.org,+1-967-611-1483x753,48595,1993-07-10,male,13 541 769 2,2022-12-05,platinum,"Asked about delivery delay, resolved within 2 days. Customer can be reached directly at +1-638-345-8810x5697."
+460,Chad Daugherty,kevintran@example.org,(820)637-7107x044,11575,1944-07-12,female,34 519 813 8,2025-09-27,gold,Inquired about loyalty point balance.
+461,Albert Reyes,nwilliams@example.com,(768)604-0850,99239,1980-08-26,female,16 502 685 8,2025-04-02,platinum,"Asked about delivery delay, resolved within 2 days. Please ship the replacement to 966 Lindsay Plaza Suite 487, Armstrongshire."
+462,Debbie Horne,preese@example.org,8442138459,81182,1959-02-13,male,21 401 943 9,2022-10-23,platinum,"Asked about delivery delay, resolved within 2 days. Please ship the replacement to 901 Carroll Islands Suite 277, South Alanton."
+463,Karen Richard,rickyriley@example.org,598-451-7244x472,19755,1999-09-17,female,91 398 183 7,2024-09-29,bronze,Inquired about loyalty point balance.
+464,Matthew Lopez,criley@example.net,001-330-344-0580x935,66946,1970-08-24,male,72 776 371 1,2024-01-08,platinum,"Asked about delivery delay, resolved within 2 days."
+465,Gabriel Watson,bjones@example.com,(605)295-5657,21513,1965-07-06,male,57 291 556 0,2022-12-02,gold,"Reported a billing discrepancy, corrected."
+466,Kevin Rodriguez,lindseydixon@example.net,895.336.9026x11398,69675,1994-09-30,female,44 677 163 2,2024-07-02,bronze,Customer requested a refund for a damaged item.
+467,Kelly Stewart,marycarter@example.org,335-737-5137x65158,86134,1973-05-22,male,85 332 666 0,2022-08-13,platinum,Requested invoice reissue for accounting purposes.
+468,Crystal Carey,sarasanchez@example.com,+1-992-594-4551x16682,24082,2000-01-24,male,83 341 587 4,2021-07-17,bronze,"Reported a billing discrepancy, corrected."
+469,Dennis Spencer,inewton@example.org,(602)312-8866x52683,44647,2001-06-29,female,74 684 629 9,2025-12-16,silver,Customer requested a refund for a damaged item.
+470,Lisa Mcknight,jonessamantha@example.com,(776)947-2298x12099,50226,1962-04-04,male,32 271 316 3,2022-05-07,silver,Customer requested a refund for a damaged item.
+471,Diana Mejia,kennethpeterson@example.net,689.786.4565x22036,13538,1964-02-02,male,35 942 742 2,2022-04-17,gold,Inquired about loyalty point balance.
+472,John Walker,keithhardin@example.net,001-513-242-1388x20908,64512,1997-01-28,female,21 497 669 6,2021-08-05,gold,Inquired about loyalty point balance.
+473,Tom Duncan,dmeyer@example.com,317-767-4124,10864,1991-01-29,female,99 738 701 8,2022-07-30,platinum,Customer requested a refund for a damaged item.
+474,Christopher Rogers,gmccoy@example.net,001-815-506-1853x80032,88758,1953-10-10,female,82 702 696 1,2023-10-25,bronze,Requested invoice reissue for accounting purposes.
+475,Mr. Jonathan Anderson,tapiamercedes@example.net,206.817.8932,90676,1958-05-10,male,78 452 998 6,2023-05-14,gold,"Reported a billing discrepancy, corrected."
+476,Marcia Washington,nataliepittman@example.com,+1-977-769-5874x13146,32927,1985-07-06,male,14 276 382 6,2022-01-16,silver,Requested invoice reissue for accounting purposes.
+477,Francis Wilson,xbush@example.com,696.730.4483x6085,54401,1967-01-30,male,14 505 439 3,2023-09-04,bronze,"Reported a billing discrepancy, corrected."
+478,Thomas Adams,matthewcardenas@example.com,263.292.8319x952,50201,1946-08-09,male,12 445 937 4,2024-12-27,gold,Inquired about loyalty point balance.
+479,Pamela Tran,stonemichael@example.org,(586)534-2556,02288,1942-12-02,female,39 237 407 7,2021-07-25,gold,Inquired about loyalty point balance.
+480,Ashley Sanders,swilliams@example.com,6333041662,10531,1945-06-29,female,34 552 316 6,2025-01-28,platinum,Requested invoice reissue for accounting purposes.
+481,Jennifer Smith,codychapman@example.com,994.556.8044,13566,1958-06-09,female,75 910 262 1,2024-09-29,gold,Requested invoice reissue for accounting purposes.
+482,Eddie Davis,ehoffman@example.com,001-588-236-0765x817,52582,1992-11-28,female,32 297 996 3,2023-09-13,bronze,"Asked about delivery delay, resolved within 2 days. Please ship the replacement to 145 Lisa Corner Apt. 823, Watkinsland."
+483,Luis Wells,briansnyder@example.com,952-705-9960x4387,85961,1956-07-01,male,35 380 477 7,2023-10-09,platinum,Customer requested a refund for a damaged item.
+484,Mr. Patrick Quinn,simmonschris@example.org,001-902-481-2371x06728,98673,1999-11-30,female,57 600 708 7,2023-07-22,silver,"Reported a billing discrepancy, corrected."
+485,Bruce Forbes,alexandra95@example.net,+1-522-748-3958x9477,98380,1989-06-08,male,54 267 957 4,2025-09-23,bronze,"Inquired about loyalty point balance. Please ship the replacement to 87056 Edward Cliff, West Jacquelineborough."
+486,Kimberly Rivera,weberbrooke@example.org,(883)650-3446x945,74047,1977-04-04,female,83 898 319 3,2024-10-05,silver,"Asked about delivery delay, resolved within 2 days."
+487,Christian Cross,gregory91@example.org,596.359.9949x73203,81100,1950-06-06,male,75 120 985 0,2022-04-16,platinum,"Asked about delivery delay, resolved within 2 days."
+488,Erica Huang,taylorlindsay@example.com,+1-775-348-1386x66754,79849,1997-09-26,female,38 358 722 4,2026-03-30,gold,"Reported a billing discrepancy, corrected."
+489,Sandra Dawson,fcastro@example.net,518-865-2057x563,49548,1952-08-21,male,68 358 323 7,2025-03-15,gold,Requested invoice reissue for accounting purposes.
+490,Jeremy Fox,willismark@example.com,280-294-0476x044,94614,2003-07-18,male,84 204 107 8,2026-06-14,gold,Requested invoice reissue for accounting purposes.
+491,Katherine Wells,johnsonanthony@example.net,(722)316-1070,71815,1959-05-03,male,48 800 210 7,2025-09-23,bronze,Inquired about loyalty point balance.
+492,Nancy Cook,rachael29@example.net,(480)966-0138x241,06334,1959-03-16,male,45 367 771 4,2022-06-16,silver,"Asked about delivery delay, resolved within 2 days."
+493,Carrie Francis,collinsann@example.org,279-419-7111x21259,01869,1955-04-05,female,17 924 977 9,2023-05-04,platinum,Inquired about loyalty point balance.
+494,Nathaniel Wright,julierojas@example.com,5645242956,36257,2000-07-20,female,93 609 402 4,2022-05-08,platinum,"Reported a billing discrepancy, corrected."
+495,Michael Baker,xkelly@example.com,001-587-720-9628x93654,92206,2006-04-29,female,84 825 685 3,2024-03-22,gold,"Asked about delivery delay, resolved within 2 days."
+496,Debra Palmer,jonathanmcdonald@example.org,882-272-7955,42754,1988-02-26,male,95 467 619 4,2024-08-12,silver,Requested invoice reissue for accounting purposes.
+497,Aimee Fisher,matthew12@example.com,927-582-0797x9966,33606,1989-08-28,female,70 231 858 4,2024-06-20,silver,Inquired about loyalty point balance.
+498,Mr. Andrew Hickman,kathrynsantana@example.net,466-649-6902,78731,2006-02-07,female,55 328 862 4,2026-03-07,platinum,Inquired about loyalty point balance.
+499,William Walton,elizabethkramer@example.org,442-557-6270,23054,1960-12-14,male,69 971 220 7,2021-11-12,bronze,Requested invoice reissue for accounting purposes.
+500,Dalton Davis,ericpeters@example.com,9728517863,61250,1988-06-28,female,70 299 612 1,2025-04-13,platinum,Requested invoice reissue for accounting purposes.

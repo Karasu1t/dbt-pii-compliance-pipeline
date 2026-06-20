@@ -88,11 +88,11 @@ All sample data is generated with `Faker` — this is a portfolio project, not a
 | Governance | Unity Catalog (column tags, masking functions, row filters) |
 | Storage format | Delta Lake with UniForm (Iceberg-readable) |
 | Transformation | dbt Core + dbt-databricks |
-| AI classification | Claude API (Anthropic Python SDK) |
+| AI classification (interactive) | Claude Code (`/pii-scan` custom command) — no separate API billing |
+| AI classification (CI) | Anthropic API (Python SDK) — only place an API key is actually needed |
 | Synthetic data | Faker |
 | Infrastructure | Terraform (Databricks provider) |
 | CI/CD | GitHub Actions |
-| AI workflow | Claude Code (`/pii-scan` custom command) |
 
 ---
 
@@ -111,7 +111,7 @@ All sample data is generated with `Faker` — this is a portfolio project, not a
 │   │   └── pii_mask_enforced.sql      # generic test: PII-tagged + public + unmasked → fail
 │   └── macros/
 ├── src/
-│   ├── pii_classifier/                # Claude API classification logic (shared by /pii-scan and CI check)
+│   ├── pii_classifier/                # Anthropic API classification logic — used only by pii_compliance_check.yml in CI; /pii-scan classifies natively in-session
 │   └── catalog/                       # Unity Catalog tagging / masking application via Databricks SDK
 ├── terraform/
 │   ├── modules/databricks/
@@ -146,6 +146,9 @@ Tags and column masks live next to the data itself and are enforced at query tim
 
 **Why a dbt test as the enforcement gate, not just a one-time scan?**
 Models change constantly. A one-time classification goes stale the moment a column is added. A dbt test re-validates on every run, so drift is caught the same way a broken data contract would be.
+
+**Why does `src/pii_classifier` call the Anthropic API only from CI, not from `/pii-scan`?**
+`/pii-scan` runs inside a Claude Code session, where the classification is just Claude Code reasoning over the data directly — already covered by that session, no extra billing. CI is unattended (no Claude Code session to lean on when a PR is opened), so `pii_compliance_check.yml` is the one place that genuinely needs its own `ANTHROPIC_API_KEY`. Routing both paths through the same API call would have been redundant spend for no added accuracy.
 
 **Why Delta Lake with UniForm instead of native Iceberg?**
 Unity Catalog's governance features (tags, masking, lineage) are native to Delta Lake. UniForm exposes the same tables as Iceberg-readable without giving up that governance layer — useful in a multi-engine context where non-Databricks engines need read access.
