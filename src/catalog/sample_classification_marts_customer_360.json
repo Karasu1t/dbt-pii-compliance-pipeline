@@ -1,20 +1,20 @@
 {
   "columns": [
-    {"column": "customer_id", "classification": "not_pii", "confidence": "high", "reasoning": "internal sequential id"},
-    {"column": "full_name", "classification": "direct_identifier", "gdpr_basis": "Art. 4(1)", "confidence": "high", "reasoning": "name"},
-    {"column": "email", "classification": "direct_identifier", "gdpr_basis": "Art. 4(1)", "confidence": "high", "reasoning": "email address"},
-    {"column": "phone_number", "classification": "direct_identifier", "gdpr_basis": "Art. 4(1)", "confidence": "high", "reasoning": "phone number"},
-    {"column": "postal_code", "classification": "quasi_identifier", "gdpr_basis": "Recital 26", "confidence": "medium", "reasoning": "re-identifying in combination with birth_date + gender"},
-    {"column": "birth_date", "classification": "quasi_identifier", "gdpr_basis": "Recital 26", "confidence": "medium", "reasoning": "re-identifying in combination with postal_code + gender"},
-    {"column": "gender", "classification": "quasi_identifier", "gdpr_basis": "Recital 26", "confidence": "medium", "reasoning": "re-identifying in combination with postal_code + birth_date"},
-    {"column": "national_id_ref", "classification": "direct_identifier", "gdpr_basis": "Art. 4(1)", "confidence": "high", "reasoning": "government-ID-shaped value despite generic column name"},
-    {"column": "loyalty_tier", "classification": "not_pii", "confidence": "high", "reasoning": "tier label only"},
-    {"column": "support_notes", "classification": "direct_identifier", "gdpr_basis": "Art. 4(1)", "confidence": "medium", "reasoning": "free text occasionally embeds an address or phone number"},
-    {"column": "total_orders", "classification": "not_pii", "confidence": "high", "reasoning": "aggregate count"},
-    {"column": "lifetime_value", "classification": "not_pii", "confidence": "high", "reasoning": "aggregate sum"},
-    {"column": "last_order_date", "classification": "not_pii", "confidence": "high", "reasoning": "aggregate max date"}
+    {"column": "customer_id", "classification": "not_pii", "confidence": "high", "reasoning": "internal sequential id", "mask_strategy": "none"},
+    {"column": "full_name", "classification": "direct_identifier", "gdpr_basis": "Art. 4(1)", "confidence": "high", "reasoning": "name", "mask_strategy": "redact"},
+    {"column": "email", "classification": "direct_identifier", "gdpr_basis": "Art. 4(1)", "confidence": "high", "reasoning": "email address", "mask_strategy": "redact"},
+    {"column": "phone_number", "classification": "direct_identifier", "gdpr_basis": "Art. 4(1)", "confidence": "high", "reasoning": "phone number", "mask_strategy": "redact"},
+    {"column": "postal_code", "classification": "quasi_identifier", "gdpr_basis": "Recital 26", "confidence": "medium", "reasoning": "re-identifying in combination with birth_date + gender", "mask_strategy": "generalize_postal_code"},
+    {"column": "birth_date", "classification": "quasi_identifier", "gdpr_basis": "Recital 26", "confidence": "medium", "reasoning": "re-identifying in combination with postal_code + gender", "mask_strategy": "generalize_birth_date"},
+    {"column": "gender", "classification": "quasi_identifier", "gdpr_basis": "Recital 26", "confidence": "medium", "reasoning": "low cardinality alone; masking adds little risk reduction once postal_code+birth_date are generalized, so left as-is to preserve aggregate utility", "mask_strategy": "none"},
+    {"column": "national_id_ref", "classification": "direct_identifier", "gdpr_basis": "Art. 4(1)", "confidence": "high", "reasoning": "government-ID-shaped value despite generic column name", "mask_strategy": "redact"},
+    {"column": "loyalty_tier", "classification": "not_pii", "confidence": "high", "reasoning": "tier label only", "mask_strategy": "none"},
+    {"column": "support_notes", "classification": "direct_identifier", "gdpr_basis": "Art. 4(1)", "confidence": "medium", "reasoning": "free text occasionally embeds an address or phone number", "mask_strategy": "redact"},
+    {"column": "total_orders", "classification": "not_pii", "confidence": "high", "reasoning": "aggregate count", "mask_strategy": "none"},
+    {"column": "lifetime_value", "classification": "not_pii", "confidence": "high", "reasoning": "aggregate sum", "mask_strategy": "none"},
+    {"column": "last_order_date", "classification": "not_pii", "confidence": "high", "reasoning": "aggregate max date", "mask_strategy": "none"}
   ],
   "quasi_identifier_groups": [
-    {"columns": ["postal_code", "birth_date", "gender"], "risk": "medium", "reasoning": "combination can re-identify an individual even though each column alone is low-risk"}
+    {"columns": ["postal_code", "birth_date", "gender"], "risk": "medium", "reasoning": "combination can re-identify an individual even though each column alone is low-risk; breaking it by generalizing postal_code + birth_date is sufficient"}
   ]
 }
