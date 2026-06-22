@@ -11,9 +11,13 @@ the Claude-based classifier has something real to prove:
    individually harmless, re-identifying together)
 4. PII embedded in unstructured free text (support_notes occasionally
    contains an address or phone number inline)
+5. An online identifier (last_login_ip) — GDPR Recital 30 treats IP
+   addresses as personal data when they can be linked back to a natural
+   person, but that's a contextual judgment, not a fixed rule the way
+   email/phone are.
 
 A classifier that only pattern-matches column names will catch (1) and miss
-(2), (3), and (4).
+(2), (3), (4), and (5).
 """
 
 import csv
@@ -79,6 +83,7 @@ def generate_customers(n: int) -> list[dict]:
                 "signup_date": fake.date_between(start_date="-5y", end_date="today").isoformat(),
                 "loyalty_tier": random.choice(LOYALTY_TIERS),
                 "support_notes": make_support_note(),
+                "last_login_ip": fake.ipv4_public(),
             }
         )
     return rows
