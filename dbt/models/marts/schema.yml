@@ -27,3 +27,13 @@ models:
         description: "PII (direct_identifier) — government-ID-shaped value despite generic column name, masked via Unity Catalog"
       - name: support_notes
         description: "PII (direct_identifier) — free text occasionally embeds an address or phone number, masked via Unity Catalog"
+      - name: last_login_ip
+        description: "Quasi-identifier (personal data per GDPR Art. 4(1)/Recital 49, CJEU Breyer) — masked via Unity Catalog"
+      - name: loyalty_tier
+        description: "Not PII — tier label only"
+      - name: total_orders
+        description: "Not PII — aggregate order count"
+      - name: lifetime_value
+        description: "Not PII — aggregate order total"
+      - name: last_order_date
+        description: "Not PII — aggregate max order date"

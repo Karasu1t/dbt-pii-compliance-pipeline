@@ -10,6 +10,7 @@
     {"column": "national_id_ref", "classification": "direct_identifier", "gdpr_basis": "Art. 4(1)", "confidence": "high", "reasoning": "government-ID-shaped value despite generic column name", "mask_strategy": "redact"},
     {"column": "loyalty_tier", "classification": "not_pii", "confidence": "high", "reasoning": "tier label only", "mask_strategy": "none"},
     {"column": "support_notes", "classification": "direct_identifier", "gdpr_basis": "Art. 4(1)", "confidence": "medium", "reasoning": "free text occasionally embeds an address or phone number", "mask_strategy": "redact"},
+    {"column": "last_login_ip", "classification": "quasi_identifier", "gdpr_basis": "Art. 4(1)/Recital 49", "confidence": "high", "reasoning": "IP address is personal data per CJEU Breyer (C-582/14); in a customer table linked to an identified person it is directly associated PII enabling tracking/profiling", "mask_strategy": "redact"},
     {"column": "total_orders", "classification": "not_pii", "confidence": "high", "reasoning": "aggregate count", "mask_strategy": "none"},
     {"column": "lifetime_value", "classification": "not_pii", "confidence": "high", "reasoning": "aggregate sum", "mask_strategy": "none"},
     {"column": "last_order_date", "classification": "not_pii", "confidence": "high", "reasoning": "aggregate max date", "mask_strategy": "none"}
