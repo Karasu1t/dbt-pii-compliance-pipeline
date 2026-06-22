@@ -1,0 +1,57 @@
+name: dbt Build
+
+# Reusable workflow, called by ci.yml. Builds the data layer only —
+# pii_mask_enforced is excluded here because masks don't exist yet at this
+# point (terraform_apply.yml runs after this, see ci.yml's needs: chain).
+# Catalog creation is NOT part of this workflow: it's bootstrap
+# infrastructure applied separately and infrequently (see
+# terraform_catalog_apply.yml), and this job assumes it already exists.
+on:
+  workflow_call:
+
+jobs:
+  dbt-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m venv .venv
+          .venv/bin/pip install -r requirements.txt
+
+      - name: Set up dbt profile
+        run: cp dbt/profiles.yml.example dbt/profiles.yml
+
+      - name: dbt seed
+        working-directory: dbt
+        run: ../.venv/bin/dbt seed
+        env:
+          DBT_PROFILES_DIR: .
+          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+          DATABRICKS_HTTP_PATH: ${{ secrets.DATABRICKS_HTTP_PATH }}
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+
+      - name: dbt run
+        working-directory: dbt
+        run: ../.venv/bin/dbt run
+        env:
+          DBT_PROFILES_DIR: .
+          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+          DATABRICKS_HTTP_PATH: ${{ secrets.DATABRICKS_HTTP_PATH }}
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+
+      - name: dbt test (excluding pii_mask_enforced)
+        working-directory: dbt
+        run: ../.venv/bin/dbt test --exclude pii_mask_enforced
+        env:
+          DBT_PROFILES_DIR: .
+          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+          DATABRICKS_HTTP_PATH: ${{ secrets.DATABRICKS_HTTP_PATH }}
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}

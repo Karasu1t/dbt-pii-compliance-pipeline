@@ -36,10 +36,14 @@ def get_connection_params(target: str | None = None) -> dict:
     profile = profiles[PROFILE_NAME]
     target = target or profile["target"]
     output = profile["outputs"][target]
+    # In CI, profiles.yml.example's host/http_path/token are Jinja env_var()
+    # placeholders that only dbt itself resolves — yaml.safe_load() can't.
+    # DATABRICKS_* env vars (from GitHub Actions secrets) take precedence so
+    # these scripts work against the same secrets without needing Jinja.
     return {
-        "server_hostname": output["host"],
-        "http_path": output["http_path"],
-        "access_token": output["token"],
+        "server_hostname": os.environ.get("DATABRICKS_HOST") or output["host"],
+        "http_path": os.environ.get("DATABRICKS_HTTP_PATH") or output["http_path"],
+        "access_token": os.environ.get("DATABRICKS_TOKEN") or output["token"],
         "catalog": output["catalog"],
         "schema": output["schema"],
     }

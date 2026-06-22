@@ -1,11 +1,12 @@
-variable "catalog_name" {
-  type    = string
-  default = "pii_compliance_dev"
+variable "databricks_host" {
+  type        = string
+  description = "Databricks workspace URL, e.g. dbc-xxxxxxxx-xxxx.cloud.databricks.com (no https://)"
 }
 
-variable "schema_name" {
-  type    = string
-  default = "default"
+variable "databricks_token" {
+  type        = string
+  sensitive   = true
+  description = "Databricks personal access token"
 }
 
 variable "table_fqn" {
@@ -16,7 +17,7 @@ variable "table_fqn" {
 
 variable "classification_json_path" {
   type        = string
-  default     = "src/catalog/sample_classification_marts_customer_360.json"
+  default     = "src/catalog/classification_marts_customer_360.json"
   description = "Path (relative to project_root) to the PII classification result JSON"
 }
 

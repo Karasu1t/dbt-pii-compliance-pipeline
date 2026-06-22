@@ -1,0 +1,44 @@
+name: Terraform Catalog Destroy
+
+# Manual only, for environment cleanup. DROP CATALOG ... CASCADE removes
+# everything underneath it too (tables, tags, masks) — there is
+# deliberately no equivalent automatic trigger for this.
+on:
+  workflow_dispatch:
+
+jobs:
+  catalog-destroy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m venv .venv
+          .venv/bin/pip install -r requirements.txt
+
+      - name: Set up dbt profile
+        run: cp dbt/profiles.yml.example dbt/profiles.yml
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init
+        working-directory: terraform/env/catalog
+        run: terraform init
+
+      - name: Terraform Destroy
+        working-directory: terraform/env/catalog
+        run: terraform destroy -auto-approve
+        env:
+          TF_VAR_project_root: ${{ github.workspace }}
+          DBT_PROFILES_DIR: ${{ github.workspace }}/dbt
+          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+          DATABRICKS_HTTP_PATH: ${{ secrets.DATABRICKS_HTTP_PATH }}
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
