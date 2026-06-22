@@ -1,8 +1,16 @@
-name: Terraform Catalog Destroy
+name: Catalog Destroy
 
 # Manual only, for environment cleanup. DROP CATALOG ... CASCADE removes
 # everything underneath it too (tables, tags, masks) — there is
 # deliberately no equivalent automatic trigger for this.
+#
+# This deliberately does NOT run `terraform destroy`. GitHub Actions
+# runners are ephemeral and there is no remote backend (see README's
+# design decisions) — every workflow run starts from empty Terraform
+# state, so `terraform destroy` here would have nothing recorded to
+# destroy and silently no-op, even though the catalog really exists.
+# `drop_catalog_if_exists` doesn't depend on state at all — it just drops
+# the named catalog if it's there — so it's called directly instead.
 on:
   workflow_dispatch:
 
@@ -26,19 +34,11 @@ jobs:
       - name: Set up dbt profile
         run: cp dbt/profiles.yml.example dbt/profiles.yml
 
-      - name: Set up Terraform
-        uses: hashicorp/setup-terraform@v3
-
-      - name: Terraform Init
-        working-directory: terraform/env/catalog
-        run: terraform init
-
-      - name: Terraform Destroy
-        working-directory: terraform/env/catalog
-        run: terraform destroy -auto-approve
+      - name: Drop catalog (if it exists)
+        working-directory: dbt
+        run: ../.venv/bin/dbt run-operation drop_catalog_if_exists
         env:
-          TF_VAR_project_root: ${{ github.workspace }}
-          DBT_PROFILES_DIR: ${{ github.workspace }}/dbt
+          DBT_PROFILES_DIR: .
           DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
           DATABRICKS_HTTP_PATH: ${{ secrets.DATABRICKS_HTTP_PATH }}
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
