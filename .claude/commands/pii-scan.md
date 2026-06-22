@@ -52,7 +52,7 @@ Validate the model exists under `dbt/models/staging/` or `dbt/models/marts/`. If
 
 ### 1-2. Run Classification
 
-Do this classification yourself, in this session — do not invoke `src/pii_classifier/classify.py` here. That script exists only for the non-interactive CI check (`pii_compliance_check.yml`), which runs unattended after a PR and therefore needs its own Anthropic API key. Inside a Claude Code session you already are the classifier, and it costs nothing extra to do it directly.
+Do this classification yourself, in this session — there is no separate classification script. AI classification only happens here, interactively; CI only ever re-checks completeness and enforcement deterministically (`scripts/check_classification_completeness.py`, `dbt/tests/pii_mask_enforced.sql`), neither of which calls an LLM.
 
 1. Read the model's compiled column list (`dbt/target/manifest.json`; run `dbt compile` first if stale)
 2. Pull a bounded sample of rows — query Databricks directly if connected, otherwise read the corresponding `dbt/seeds/*.csv`
@@ -99,11 +99,20 @@ If the user describes an override, apply it to the in-memory table and re-displa
   Quasi-id group: {list, or "none"}
   ─────────────────────────────
   Files to modify ({N} total):
-    - terraform/modules/databricks/unity_catalog_tags/{model_name}.tf     … Unity Catalog column tags
-    - terraform/modules/databricks/masking_policies/{model_name}.tf      … masking function assignment (only if public-facing + PII present)
-    - dbt/models/{staging|marts}/schema.yml                              … meta.pii / meta.pii_category annotations
-    - dbt/tests/generic/pii_mask_enforced.sql                            … generic test (created once, otherwise unchanged)
-    - dbt/models/exposures.yml                                           … only if newly public-facing
+    - src/catalog/classification_{model_name}.json   … PII classification result — read directly by both the
+                                                         unity_catalog_tags Terraform module (native
+                                                         databricks_entity_tag_assignment, jsondecode) and
+                                                         masking_policies (local-exec → apply_masks.py).
+                                                         No per-model .tf files are created or edited.
+    - terraform/env/dev/variables.tf                  … only if {model_name} differs from the current
+                                                         table_fqn/classification_json_path — this Terraform
+                                                         setup manages one table at a time
+    - dbt/models/{staging|marts}/schema.yml            … human-readable column descriptions only — Unity
+                                                         Catalog tags (not schema.yml) are the enforcement
+                                                         source of truth read by pii_mask_enforced.sql
+    - dbt/models/exposures.yml                         … only if newly public-facing
+    - dbt/tests/pii_mask_enforced.sql                  … only if it doesn't exist yet — it already covers
+                                                         every model listed in exposures.yml dynamically
 
 Proceed with these changes? (y/n/back/all back)
 ```
@@ -133,40 +142,48 @@ Proceed? (y/n/back/all back)
 
 ---
 
-### STEP 2/8: terraform/modules/databricks/unity_catalog_tags/{model_name}.tf
+### STEP 2/8: src/catalog/classification_{model_name}.json
 
 ```
-[STEP 2/8] terraform/modules/databricks/unity_catalog_tags/{model_name}.tf
+[STEP 2/8] src/catalog/classification_{model_name}.json
   Diff:
-    {databricks_catalog_tag / column tag resource per PII column}
+    {full classification JSON: columns[] with classification/gdpr_basis/confidence/reasoning/mask_strategy,
+     plus quasi_identifier_groups[]}
 Proceed? (y/n/back/all back)
 ```
 
-`back` → `git checkout -- terraform/modules/databricks/unity_catalog_tags/{model_name}.tf` and return to STEP 1.
+This single file is what both the `unity_catalog_tags` Terraform module (native `databricks_entity_tag_assignment`,
+read via `jsondecode`) and `masking_policies` (local-exec → `apply_masks.py`) consume — no `.tf` files are
+hand-edited per model.
+
+`back` → `git checkout -- src/catalog/classification_{model_name}.json` (or delete it if newly created) and return to STEP 1.
 
 ---
 
-### STEP 3/8: terraform/modules/databricks/masking_policies/{model_name}.tf
+### STEP 3/8: terraform/env/dev/variables.tf
 
-Only applies if the model is public-facing **and** has at least one PII or quasi-identifier-group column.
+Only applies if `{model_name}`'s table differs from the current `table_fqn` — this Terraform setup manages
+**one table at a time**. If it's the same table already configured, skip with no change.
 
 ```
-[STEP 3/8] terraform/modules/databricks/masking_policies/{model_name}.tf
-  Assessment : {change needed / skipped — model not public-facing / skipped — no PII present}
-  {if change needed: diff of masking function + ALTER TABLE ... SET MASK}
+[STEP 3/8] terraform/env/dev/variables.tf
+  Assessment : {no change — already configured for this table / updating table_fqn and classification_json_path}
+  {diff if changing}
 Proceed? (y/n/back/all back)
 ```
 
-`back` → `git checkout -- terraform/modules/databricks/masking_policies/{model_name}.tf` and return to STEP 2.
+`back` → `git checkout -- terraform/env/dev/variables.tf` and return to STEP 2.
 
 ---
 
 ### STEP 4/8: dbt/models/{staging|marts}/schema.yml
 
+Documentation only — Unity Catalog tags (applied in STEP 6) are the actual enforcement source of truth, not this file.
+
 ```
 [STEP 4/8] dbt/models/{staging|marts}/schema.yml
   Diff:
-    {meta.pii: true/false and meta.pii_category per column, added under the model's existing schema.yml entry}
+    {column descriptions noting PII status, for human readability in dbt docs}
 Proceed? (y/n/back/all back)
 ```
 
@@ -174,40 +191,52 @@ Proceed? (y/n/back/all back)
 
 ---
 
-### STEP 5/8: dbt/tests/generic/pii_mask_enforced.sql
-
-```
-[STEP 5/8] dbt/tests/generic/pii_mask_enforced.sql
-  Assessment : {already exists, no change / creating for the first time}
-  {if creating: show full generic test definition — fails if a column with meta.pii: true
-   in a model listed in exposures.yml lacks an active Unity Catalog mask}
-Proceed? (y/n/back/all back)
-```
-
-`back` → `git checkout -- dbt/tests/generic/pii_mask_enforced.sql` and return to STEP 4.
-
----
-
-### STEP 6/8: dbt/models/exposures.yml
+### STEP 5/8: dbt/models/exposures.yml
 
 Only applies if the model is public-facing and not already listed.
 
 ```
-[STEP 6/8] dbt/models/exposures.yml
+[STEP 5/8] dbt/models/exposures.yml
   Assessment : {already listed, no change / adding new exposure entry}
   {if adding: diff}
 Proceed? (y/n/back/all back)
 ```
 
-`back` → `git checkout -- dbt/models/exposures.yml` and return to STEP 5.
+`back` → `git checkout -- dbt/models/exposures.yml` and return to STEP 4.
+
+---
+
+### STEP 6/8: terraform plan / apply
+
+Applies the tags and masks for real — `pii_mask_enforced.sql` (STEP 7) has nothing to check against until this runs.
+
+**Prerequisite — check this before running plan/apply, every time:** `{table_fqn}` must already exist
+in Databricks (`unity_catalog_tags` and `masking_policies` both fail with "Table ... does not exist" otherwise —
+discovered the hard way running this command against a freshly-destroyed environment). Tags/masks are layered
+on top of dbt-managed tables; they don't create them. If unsure whether the table exists, run
+`dbt seed --project-dir ./dbt && dbt run --project-dir ./dbt` first — cheap and idempotent if it already does.
+
+```
+[STEP 6/8] terraform plan / apply
+  Pre-check : {table_fqn} exists in Databricks? {yes / no — ran dbt seed + dbt run first}
+  Command   : terraform -chdir=terraform/env/dev apply
+  {show plan summary — resources to add/change}
+Proceed? (y/n/back/all back)
+```
+
+`back` → no terraform state revert needed if plan was only previewed; if applied, note that a subsequent
+`terraform destroy` or manual cleanup would be needed — ask before reverting applied infrastructure.
 
 ---
 
 ### STEP 7/8: Run `dbt test` locally
 
+`dbt/tests/pii_mask_enforced.sql` already exists and dynamically covers every model listed in `exposures.yml` —
+nothing to create here, just run it.
+
 ```
 [STEP 7/8] Run dbt test
-  Command : dbt test --select {model_name}
+  Command : dbt test --select pii_mask_enforced
   {show output summary — pass/fail per test}
 Proceed? (y/n/back/all back)
 ```
@@ -234,13 +263,13 @@ If tests fail, report the failure and do not proceed to STEP 8 until resolved.
     ## Modified Files
     {bullet list of each file and what changed}
 
-    ## Automated Checks
+    ## Automated Checks (all deterministic — no AI runs in CI)
     Opening this PR against dev will automatically trigger:
-    - dbt_build.yml             (model + test build)
-    - terraform_apply.yml       (Unity Catalog tags + masks go live)
-    - pii_compliance_check.yml  (non-interactive re-classification of the diff — runs only if both above pass)
+    - dbt_build.yml                      (seed + run + test build)
+    - terraform_apply.yml                (Unity Catalog tags + masks go live)
+    - governance_check.yml                (dbt test pii_mask_enforced + classification completeness — runs only after terraform_apply succeeds)
 
-  ⚠️ Creating this PR will trigger dbt_build, terraform_apply, and pii_compliance_check automatically.
+  ⚠️ Creating this PR will trigger dbt_build, terraform_apply, and governance_check automatically.
 Proceed? (y/n/back/all back)
 ```
 
@@ -251,7 +280,7 @@ If y → run `git add` → `commit` → `push` → `gh pr create` and display th
 ```
 ✅ PII scan workflow complete
   PR: {URL}
-  GitHub Actions (dbt_build / terraform_apply → pii_compliance_check) is now running.
+  GitHub Actions (dbt_build / terraform_apply → governance_check) is now running.
   Check the PR page for results.
 ```
 

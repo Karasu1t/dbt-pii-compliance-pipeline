@@ -8,12 +8,13 @@ Always respond in English in this project.
 
 A pipeline that semi-automates GDPR-driven PII governance for a dbt project running on Databricks.
 - dbt (dbt-databricks) → Databricks Unity Catalog → Delta Lake (UniForm / Iceberg-readable)
-- AI classification: done two ways, deliberately —
-  - Interactively, inside a Claude Code session (`/pii-scan`): no separate billing, it's covered by the Claude Code session itself
-  - Non-interactively, in CI (`pii_compliance_check.yml`): calls the Anthropic API directly via `src/pii_classifier/classify.py`, since GitHub Actions runs unattended and there's no Claude Code session to lean on. This is the only place an `ANTHROPIC_API_KEY` is actually required.
+- AI classification happens in exactly one place: interactively, inside a Claude Code session, via `/pii-scan`. This is a **developer-time skill**, not a CI step — there is no Anthropic API usage anywhere in this repo, and no `ANTHROPIC_API_KEY` is needed.
+- CI/CD's job is verifying that what `/pii-scan` already decided is actually complete and actually enforced — both are deterministic set-comparison / metadata checks, not classification judgment, so no AI is involved:
+  - **Completeness**: does every live column in an exposed table have a classification entry? (`scripts/check_classification_completeness.py`)
+  - **Enforcement**: does every column tagged `mask_required = true` have an active Unity Catalog mask? (`dbt/tests/pii_mask_enforced.sql`)
 - Enforcement: Unity Catalog column tags + masking functions, verified continuously by dbt tests
 - Infrastructure: Terraform (Databricks provider)
-- CI/CD: GitHub Actions (ci / dbt_build / pii_compliance_check / terraform_apply / terraform_destroy)
+- CI/CD: GitHub Actions (`dbt_build.yml`, `terraform_apply.yml`, `governance_check.yml`)
 
 ## Branch Strategy
 
@@ -47,31 +48,35 @@ Each step shows the exact diff and asks `Proceed? (y/n)` before making any chang
 | Step | Target | Purpose |
 |------|--------|---------|
 | 1/8 | Branch creation | `feature/{YYYYMMDD}/pii_scan_{model_name}` from `dev` |
-| 2/8 | `terraform/modules/databricks/unity_catalog_tags/` | Unity Catalog column tags: `pii_category` (classification) and `mask_required` (true/false — makes a deliberate "tagged as risk but intentionally left unmasked" call explicit, e.g. `gender`) |
-| 3/8 | `terraform/modules/databricks/masking_policies/` | Column masking function assignment for columns where `mask_required = true` |
-| 4/8 | `dbt/models/**/schema.yml` | Column-level documentation only — the actual enforcement source of truth is the Unity Catalog tags applied in step 2, not schema.yml |
-| 5/8 | `dbt/tests/pii_mask_enforced.sql` | Singular dbt test: cross-references `information_schema.column_tags` (`mask_required = true`) against `information_schema.column_masks` for models listed in `exposures.yml` — fails if any tagged column lacks an active mask |
-| 6/8 | `dbt/models/exposures.yml` | Marks the model as public-facing if newly dashboard/BI-exposed |
-| 7/8 | `dbt test` (local run) | Validates the new test passes against the live warehouse |
-| 8/8 | Commit + PR | Opens PR against `dev`, triggers Terraform apply + dbt build + PII compliance check automatically |
+| 2/8 | `src/catalog/classification_{model_name}.json` | The classification result — read directly by both `unity_catalog_tags` (native `databricks_entity_tag_assignment`, via `jsondecode`) and `masking_policies` (local-exec → `apply_masks.py`). No `.tf` files are hand-edited per model. |
+| 3/8 | `terraform/env/dev/variables.tf` | Only if `{model_name}`'s table differs from the currently-configured `table_fqn` — this setup manages one table at a time |
+| 4/8 | `dbt/models/**/schema.yml` | Column-level documentation only — the actual enforcement source of truth is the Unity Catalog tags applied in step 6, not schema.yml |
+| 5/8 | `dbt/models/exposures.yml` | Marks the model as public-facing if newly dashboard/BI-exposed |
+| 6/8 | `terraform plan` / `apply` | Applies the tags and masks for real — nothing for STEP 7 to check until this runs. **Prerequisite: `{table_fqn}` must already exist** (`dbt seed && dbt run` first if unsure) — tags/masks layer onto dbt-managed tables, they don't create them |
+| 7/8 | `dbt test --select pii_mask_enforced` (local run) | Already covers every model in `exposures.yml` dynamically — nothing to create, just run it |
+| 8/8 | Commit + PR | Opens PR against `dev`, triggers `dbt_build.yml` + `terraform_apply.yml` + `governance_check.yml` automatically — all three are deterministic checks, no AI involved at this stage |
 
 ---
 
 ## CI/CD Behavior
 
-Opening a PR against `dev` triggers the CI pipeline (`ci.yml`):
+Opening a PR against `dev` triggers a **sequential** pipeline — not parallel jobs joining at the end. This is
+deliberate: `terraform_apply` tags/masks a table that only `dbt_build` creates (`dbt seed` + `dbt run`), the same
+ordering bug found running `/pii-scan` end-to-end against a freshly-destroyed environment (see STEP 6/8's
+prerequisite note). Running them in parallel would race the same failure into CI.
 
 ```
 pull_request → dev
-    ├── terraform_apply.yml      (parallel)
-    └── dbt_build.yml            (parallel)
-              ↓ only if both pass
-         pii_compliance_check.yml
+    dbt_build.yml                (seed + run + test, excluding pii_mask_enforced — masks don't exist yet)
+        ↓
+    terraform_apply.yml          (tags + masks go live, now that dbt_build's tables exist)
+        ↓
+    governance_check.yml         (dbt test --select pii_mask_enforced + completeness script — both deterministic, no AI)
 ```
 
-- `dbt_build.yml` and `terraform_apply.yml` run in parallel.
-- `pii_compliance_check.yml` runs only after both succeed, and re-runs the Claude classification non-interactively against the diffed models — if a column is newly exposed without a tag/mask, the PR is blocked and Claude posts a PR comment explaining which column and why.
-- Terraform apply runs on PR so Unity Catalog tags/masks are live before the compliance check queries them.
+`governance_check.yml` checks two things, neither requiring an LLM:
+1. **Enforcement** (`pii_mask_enforced.sql`): does every column tagged `mask_required = true` have an active mask?
+2. **Completeness** (`scripts/check_classification_completeness.py`): does every live column in an exposed table have a classification entry at all? If a column was added without anyone running `/pii-scan`, the PR is blocked with a list of which columns are missing.
 
 ---
 

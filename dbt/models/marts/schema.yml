@@ -5,10 +5,25 @@ models:
     description: >
       Denormalized customer view intended for BI/dashboard consumption.
       This is the model that matters most for PII governance — it's the one
-      that would actually reach a public-facing dashboard. Not yet classified
-      — run /pii-scan marts_customer_360.
+      that would actually reach a public-facing dashboard.
     columns:
       - name: customer_id
         tests:
           - unique
           - not_null
+      - name: full_name
+        description: "PII (direct_identifier) — masked via Unity Catalog"
+      - name: email
+        description: "PII (direct_identifier) — masked via Unity Catalog"
+      - name: phone_number
+        description: "PII (direct_identifier) — masked via Unity Catalog"
+      - name: postal_code
+        description: "Quasi-identifier (combination risk with birth_date + gender) — generalized via Unity Catalog mask"
+      - name: birth_date
+        description: "Quasi-identifier (combination risk with postal_code + gender) — generalized via Unity Catalog mask"
+      - name: gender
+        description: "Quasi-identifier — left unmasked (mask_required=false): low cardinality alone, postal_code/birth_date generalization already breaks the combination risk"
+      - name: national_id_ref
+        description: "PII (direct_identifier) — government-ID-shaped value despite generic column name, masked via Unity Catalog"
+      - name: support_notes
+        description: "PII (direct_identifier) — free text occasionally embeds an address or phone number, masked via Unity Catalog"

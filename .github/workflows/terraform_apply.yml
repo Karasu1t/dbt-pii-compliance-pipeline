@@ -1,0 +1,50 @@
+name: Terraform Apply (Tags + Masks)
+
+# Reusable workflow, called by ci.yml after dbt_build succeeds — the tables
+# unity_catalog_tags and masking_policies tag/mask only exist once dbt_build
+# has run dbt seed + dbt run. Catalog creation is handled separately by
+# terraform_catalog_apply.yml (bootstrap, infrequent), not here.
+on:
+  workflow_call:
+
+jobs:
+  terraform-apply:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m venv .venv
+          .venv/bin/pip install -r requirements.txt
+
+      - name: Set up dbt profile
+        run: cp dbt/profiles.yml.example dbt/profiles.yml
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init
+        working-directory: terraform/env/dev
+        run: terraform init
+
+      - name: Terraform Apply
+        working-directory: terraform/env/dev
+        run: terraform apply -auto-approve
+        env:
+          # TF_VAR_* for the databricks provider (unity_catalog_tags);
+          # plain DATABRICKS_* for apply_masks.py, invoked via local-exec
+          # by masking_policies, which reads get_connection_params() the
+          # same way the other scripts do.
+          TF_VAR_databricks_host: ${{ secrets.DATABRICKS_HOST }}
+          TF_VAR_databricks_token: ${{ secrets.DATABRICKS_TOKEN }}
+          TF_VAR_project_root: ${{ github.workspace }}
+          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+          DATABRICKS_HTTP_PATH: ${{ secrets.DATABRICKS_HTTP_PATH }}
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}

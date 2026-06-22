@@ -1,0 +1,26 @@
+name: CI
+
+# The only real trigger in this set of workflows. Chains the 3 reusable
+# workflows below strictly sequentially (needs:), not parallel-then-join —
+# terraform_apply tags/masks tables that only dbt_build creates, and
+# governance_check verifies state that only exists once terraform_apply has
+# run. Catalog creation is deliberately not part of this chain: see
+# terraform_catalog_apply.yml.
+on:
+  pull_request:
+    branches: [dev]
+
+jobs:
+  dbt_build:
+    uses: ./.github/workflows/dbt_build.yml
+    secrets: inherit
+
+  terraform_apply:
+    needs: dbt_build
+    uses: ./.github/workflows/terraform_apply.yml
+    secrets: inherit
+
+  governance_check:
+    needs: terraform_apply
+    uses: ./.github/workflows/governance_check.yml
+    secrets: inherit

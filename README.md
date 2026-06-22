@@ -2,7 +2,7 @@
 
 GDPR requires every organization to know which columns hold personal data and to protect them — but in practice, PII classification is still done by hand, drifts out of date as models change, and tools like Purview or Collibra are expensive and shallow (keyword matching on column names, no judgment on combined re-identification risk).
 
-This project solves that with **Claude as the classification engine for a dbt-on-Databricks pipeline**: a `/pii-scan` command reads a dbt model's columns and sample data, classifies each column against GDPR categories (including quasi-identifier *combinations*, not just single-column keyword matches), tags Unity Catalog accordingly, and a dbt test continuously verifies that nothing PII-tagged reaches a public-facing model unmasked. CI blocks any PR that would ship an unprotected column.
+This project splits the problem into two halves that don't need the same tool: a developer-time Claude Code skill (`/pii-scan`) does the actual classification judgment — reading a dbt model's columns and sample data, classifying each one against GDPR categories including quasi-identifier *combinations*, not just single-column keyword matches — and CI/CD verifies, with plain deterministic checks, that the classification is complete and actually enforced. No AI runs anywhere in CI; there's nothing for an LLM to judge in "does this list contain that item" or "does this tag have a matching mask."
 
 ---
 
@@ -16,7 +16,7 @@ In a real data platform, new dbt models and columns appear constantly. The tradi
 
 This is exactly the kind of judgment-heavy, easy-to-forget work that causes real compliance incidents — not because anyone was careless, but because nothing forces the check at the moment a model changes.
 
-**The goal**: classify PII risk (including multi-column re-identification risk) automatically, enforce it with a dbt test, and block non-compliant changes in CI — with a human reviewing every classification before it's applied.
+**The goal**: classify PII risk (including multi-column re-identification risk) with AI assistance and human review at development time, then enforce and verify it continuously in CI with nothing but deterministic checks — classification is a judgment call made once per change; checking that the judgment was actually applied and didn't drift is not.
 
 ---
 
@@ -37,23 +37,24 @@ Invoked inside a Claude Code session:
 
 ```mermaid
 flowchart TD
-    A["/pii-scan marts_customer_360"] --> B["Phase 1: classify columns + combinations · approve table"]
+    A["/pii-scan marts_customer_360\n(Claude Code session — the only place AI runs)"] --> B["Phase 1: classify columns + combinations · approve table"]
     B --> C{Confirmed?}
     C -- n --> B
-    C -- y --> D["Phase 2 — 8 steps, each confirmed with y/n\n① branch  ② UC tags  ③ masking policies\n④ schema.yml meta  ⑤ dbt test  ⑥ exposures.yml\n⑦ dbt test (local run)  ⑧ commit + PR"]
+    C -- y --> D["Phase 2 — write classification_{model}.json,\nupdate exposures.yml/schema.yml,\nterraform apply, dbt test, commit + PR"]
     D --> E["PR opened → dev"]
-    E --> F["dbt_build.yml"] & G["terraform_apply.yml\n(Unity Catalog tags + masks)"]
-    F & G --> H{Both pass?}
-    H -- yes --> I["pii_compliance_check.yml\nClaude re-classifies diffed models non-interactively"]
-    H -- no --> J["CI blocked"]
-    I --> K{Unmasked PII exposed?}
-    K -- yes --> L["PR blocked + Claude posts explanation comment"]
-    K -- no --> M["PR check passes"]
+    E --> F["dbt_build.yml\n(seed + run + test, excluding pii_mask_enforced)"]
+    F --> G["terraform_apply.yml\n(tags + masks go live — needs dbt_build's tables to exist first)"]
+    G --> H["governance_check.yml\ndbt test pii_mask_enforced + completeness script\n(both deterministic — no AI)"]
+    H --> I{Both pass?}
+    I -- no --> J["PR blocked — lists which columns are missing or unmasked"]
+    I -- yes --> K["PR check passes"]
 ```
+
+Note the chain is **sequential**, not parallel-then-join: `terraform_apply` tags/masks a table that only `dbt_build` creates, so it can't run before — or alongside — `dbt_build`. Catalog creation isn't in this chain at all — it's bootstrapped once via `terraform_catalog_apply.yml` (`workflow_dispatch`, manual), since `dbt_build` itself can't run until the catalog already exists either.
 
 ### Auto-Generated PR
 
-Claude creates the PR body automatically, summarizing the classification and every file touched — and on the CI side, a second non-interactive pass re-runs the same classification logic against the diff to make sure nothing was approved by mistake and later drifted.
+Claude creates the PR body automatically, summarizing the classification and every file touched. CI then re-checks that classification against live Databricks state with a plain script — no LLM call, just "does every column that exists today have an entry in the JSON."
 
 ---
 
@@ -65,13 +66,15 @@ flowchart LR
     DBT["dbt (dbt-databricks)\nstaging → marts"]
     UC["Unity Catalog\ntags + masking functions"]
     Delta["Delta Lake\n(UniForm: Iceberg-readable)"]
-    Claude["Claude API\nPII + quasi-identifier classification"]
-    CI["GitHub Actions\ndbt build · terraform apply · PII check"]
+    Claude["Claude Code session\n/pii-scan — classification judgment, dev-time only"]
+    JSON["classification_{model}.json\n(committed to the repo)"]
+    CI["GitHub Actions\ndbt build · terraform apply · completeness check\n(all deterministic, no AI)"]
 
     Seeds --> DBT --> Delta
     DBT <--> UC
-    Claude --> UC
-    DBT --> CI --> Claude
+    Claude --> JSON --> UC
+    JSON --> CI
+    DBT --> CI
 ```
 
 ### Why synthetic data
@@ -88,8 +91,7 @@ All sample data is generated with `Faker` — this is a portfolio project, not a
 | Governance | Unity Catalog (column tags, masking functions, row filters) |
 | Storage format | Delta Lake with UniForm (Iceberg-readable) |
 | Transformation | dbt Core + dbt-databricks |
-| AI classification (interactive) | Claude Code (`/pii-scan` custom command) — no separate API billing |
-| AI classification (CI) | Anthropic API (Python SDK) — only place an API key is actually needed |
+| AI classification | Claude Code (`/pii-scan` custom command) — developer-time only, no Anthropic API usage anywhere in this repo |
 | Synthetic data | Faker |
 | Infrastructure | Terraform (Databricks provider) |
 | CI/CD | GitHub Actions |
@@ -113,24 +115,28 @@ All sample data is generated with `Faker` — this is a portfolio project, not a
 │       ├── create_catalog.sql         # idempotent CREATE CATALOG IF NOT EXISTS, run via dbt run-operation
 │       └── drop_catalog.sql           # idempotent DROP CATALOG IF EXISTS ... CASCADE, for environment resets
 ├── src/
-│   ├── pii_classifier/                # Anthropic API classification logic — used only by pii_compliance_check.yml in CI; /pii-scan classifies natively in-session
-│   └── catalog/                       # apply_tags.py (pii_category + mask_required tags) / apply_masks.py (mask function creation + SET MASK), both via Databricks SQL connector reusing dbt's profiles.yml
+│   └── catalog/                       # classification_{model}.json (the classification result, committed) + apply_tags.py / apply_masks.py, both via Databricks SQL connector reusing dbt's profiles.yml
 ├── terraform/
 │   ├── modules/databricks/
-│   │   ├── catalog/                   # null_resource + local-exec → dbt run-operation create_catalog_if_not_exists
-│   │   ├── unity_catalog_tags/        # null_resource + local-exec → src/catalog/apply_tags.py
-│   │   └── masking_policies/          # null_resource + local-exec → src/catalog/apply_masks.py
-│   └── env/dev/                       # provider.tf, variables.tf, main.tf wiring the 3 modules together
+│   │   ├── catalog/                   # null_resource + local-exec → dbt run-operation create_catalog_if_not_exists (native databricks_catalog blocked by this workspace's storage config)
+│   │   ├── unity_catalog_tags/        # native databricks_entity_tag_assignment, for_each over the classification JSON
+│   │   └── masking_policies/          # null_resource + local-exec → src/catalog/apply_masks.py (no native mask resource exists)
+│   └── env/
+│       ├── catalog/                   # separate state — bootstrap only, applied manually/infrequently (see terraform_catalog_apply.yml)
+│       └── dev/                        # unity_catalog_tags + masking_policies only — reconciled on every PR via ci.yml
 ├── tests/                             # Python unit tests for src/
-├── scripts/                           # synthetic data generation, local setup helpers
+├── scripts/
+│   ├── generate_sample_data.py        # synthetic data generation
+│   └── check_classification_completeness.py  # deterministic CI check — no AI, just set comparison against live Databricks columns
 ├── .github/workflows/
-│   ├── ci.yml                         # PR pipeline orchestration
-│   ├── dbt_build.yml
-│   ├── terraform_apply.yml
-│   ├── terraform_destroy.yml
-│   └── pii_compliance_check.yml       # non-interactive Claude re-classification on diff
+│   ├── ci.yml                         # pull_request trigger, chains the 3 reusable workflows below sequentially (needs:)
+│   ├── dbt_build.yml                  # workflow_call — seed + run + test, excluding pii_mask_enforced
+│   ├── terraform_apply.yml            # workflow_call — tags + masks go live (needs dbt_build's tables to exist)
+│   ├── governance_check.yml           # workflow_call — dbt test pii_mask_enforced + check_classification_completeness.py (needs terraform_apply)
+│   ├── terraform_catalog_apply.yml    # workflow_dispatch (manual only) — bootstrap, infrequent
+│   └── terraform_catalog_destroy.yml  # workflow_dispatch (manual only) — DROP CATALOG ... CASCADE, environment teardown
 └── .claude/commands/
-    └── pii-scan.md                    # /pii-scan command definition
+    └── pii-scan.md                    # /pii-scan command definition — a developer-time skill, never invoked by CI
 ```
 
 ---
@@ -152,8 +158,8 @@ Models change constantly. A one-time classification goes stale the moment a colu
 **Why is there a separate `mask_required` tag instead of just checking `pii_category`?**
 Early on, `pii_mask_enforced` checked any non-`not_pii` tag against active masks — and it correctly failed on `gender`, which is tagged `quasi_identifier` but deliberately left unmasked (masking `postal_code` + `birth_date` already breaks the re-identification combination; masking `gender` too would cost aggregate utility for no real risk reduction). The test had no way to distinguish "an intentional exception" from "an undetected gap" — both looked identical. `mask_required` (set alongside `pii_category` by the same tagging step) makes that judgment call an explicit, queryable fact in Unity Catalog instead of leaving it as an artifact of whatever the classification JSON happened to say.
 
-**Why does `src/pii_classifier` call the Anthropic API only from CI, not from `/pii-scan`?**
-`/pii-scan` runs inside a Claude Code session, where the classification is just Claude Code reasoning over the data directly — already covered by that session, no extra billing. CI is unattended (no Claude Code session to lean on when a PR is opened), so `pii_compliance_check.yml` is the one place that genuinely needs its own `ANTHROPIC_API_KEY`. Routing both paths through the same API call would have been redundant spend for no added accuracy.
+**Doesn't CI need to re-run AI classification to catch a column someone forgot to classify?**
+That was the original design — `pii_compliance_check.yml` called the Anthropic API directly to re-classify diffed models, on the theory that CI is unattended so it needs its own way to invoke Claude. That theory doesn't survive contact with what the check actually needs to catch: "did every column get a classification entry" is a set-membership question (is column X present in `classification_{model}.json`'s column list), not a question that requires re-judging *what* the classification should be. `scripts/check_classification_completeness.py` answers it with a live `information_schema.columns` query and a Python set difference — no API key, no billing, no LLM involved. The judgment call already happened once, when a human ran `/pii-scan` and reviewed the result; CI's job is checking that the judgment was actually recorded for everything that exists today, not re-deriving it.
 
 **Why does `support_notes` get fully redacted instead of masking only the rows that actually contain PII?**
 Free-text fields occasionally embed an address or phone number inline, but detecting that reliably on every row isn't achievable — there's no bright line that separates "safe" rows from "risky" ones at the column level. Rather than rely on imperfect per-row detection, the column is masked entirely by default. This is a deliberate, conservative trade against business utility — and the same logic would apply to any column where row-level detection is the better but unreachable goal.
@@ -161,8 +167,18 @@ Free-text fields occasionally embed an address or phone number inline, but detec
 **Is this system claiming to guarantee zero PII leaks?**
 No — and it shouldn't claim that. GDPR's own standard (Art. 32) is "appropriate technical and organisational measures," a proportionality test, not a perfection test. This project automates the high-confidence, common cases and routes low-confidence ones through human review (the `confidence` field, the `/pii-scan` approval gate); it doesn't claim to catch every ambiguous or context-dependent case (e.g. personal disclosures buried in free text that don't match any known pattern). The realistic goal is reducing risk and creating an auditable process, not proving an unprovable negative.
 
+**What did actually running `/pii-scan` end-to-end (not just each piece in isolation) catch?**
+A real ordering bug: STEP 6/8 (`terraform apply`) failed with "Table ... does not exist" when run against a freshly-destroyed environment, because `unity_catalog_tags` and `masking_policies` tag/mask a table that dbt — not Terraform — creates. Each piece had been verified individually (classification, tagging, masking, the dbt test, Terraform applying cleanly) but never run as the single connected workflow `/pii-scan` actually is, so this dependency gap never surfaced. Fixed by documenting the prerequisite explicitly in STEP 6 (`dbt seed && dbt run` before `terraform apply` if the table's existence is unsure) rather than assuming the table is always already there.
+
+**Why is the catalog Terraform config (`terraform/env/catalog/`) a separate state from tags/masks (`terraform/env/dev/`)?**
+The dependency chain has an edge in both directions: `dbt seed`/`dbt run` can't write tables into a catalog that doesn't exist yet, and `unity_catalog_tags`/`masking_policies` can't tag/mask columns on tables `dbt` hasn't created yet. With all three Terraform modules in one state, there's no single ordering that works against `dbt_build` — catalog needs to come *before* it, tags/masks need to come *after* it. Splitting catalog into its own state (applied once, infrequently, via `terraform_catalog_apply.yml`) resolves this the way most real Databricks platforms already do it: catalog/schema provisioning is treated as rare bootstrap infrastructure, decoupled from the CI pipeline that runs on every PR, which can then simply assume the catalog already exists.
+
 **Why Delta Lake with UniForm instead of native Iceberg?**
 Unity Catalog's governance features (tags, masking, lineage) are native to Delta Lake. UniForm exposes the same tables as Iceberg-readable without giving up that governance layer — useful in a multi-engine context where non-Databricks engines need read access.
 
-**Why does Terraform call Python scripts instead of using native `databricks_catalog` / tag / mask resources?**
-The native `databricks_catalog` resource failed against this workspace with "Metastore storage root URL does not exist" — it expects an explicit managed storage location that isn't worth provisioning for a portfolio dev catalog, and Unity Catalog column tags/masks don't have mature native Terraform resources yet either way. Rather than fight the provider or hand-roll equivalent HCL for what the SQL already does correctly (`CREATE CATALOG IF NOT EXISTS`, verified working via the dbt macro), every module here is `null_resource` + `local-exec` calling the same scripts `/pii-scan` uses interactively — one source of truth instead of three.
+**Why does Terraform call Python scripts instead of using native resources — and is that true for all three modules?**
+No — this needed checking per-resource rather than assuming, and the answer differs by module (verified against the [provider source](https://github.com/databricks/terraform-provider-databricks/tree/main/docs/resources), not assumed):
+
+- **Catalog**: `databricks_catalog` *does* exist natively, but failed against this specific Databricks Free Edition workspace with "Metastore storage root URL does not exist" — it expects an explicit managed storage location that isn't worth provisioning for a portfolio dev catalog. This is a workspace/tier limitation, not a missing-resource problem. `CREATE CATALOG IF NOT EXISTS` via SQL works fine against this workspace's default storage, so the catalog module delegates to the same dbt macro `/pii-scan` would use.
+- **Tags**: `databricks_entity_tag_assignment` *does* exist and supports `entity_type = "columns"` — there was no real justification for a `null_resource` + `local-exec` wrapper here, so this module was migrated to the native resource: the classification JSON is read directly via `jsondecode(file(...))` and `for_each` over it, one `databricks_entity_tag_assignment` per column per tag key (`pii_category`, `mask_required`). `terraform plan` shows real attribute-level diffs (`tag_value = "direct_identifier"`) instead of an opaque trigger hash.
+- **Masking functions / `SET MASK`**: confirmed no native resource exists (no `mask`-named resource in the provider, and `databricks_sql_table`'s `column` block has no masking attribute) — `null_resource` + `local-exec` calling `apply_masks.py` is the only option here.

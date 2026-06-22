@@ -1,0 +1,55 @@
+name: Governance Check
+
+# Reusable workflow, called by ci.yml after terraform_apply succeeds — both
+# checks here are deterministic (no AI, no Anthropic API key anywhere):
+#   1. dbt test pii_mask_enforced: does every mask_required=true tag have an
+#      active Unity Catalog mask?
+#   2. check_classification_completeness.py: does every live column in an
+#      exposed table have a classification.json entry at all?
+on:
+  workflow_call:
+
+jobs:
+  governance-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m venv .venv
+          .venv/bin/pip install -r requirements.txt
+
+      - name: Set up dbt profile
+        run: cp dbt/profiles.yml.example dbt/profiles.yml
+
+      - name: dbt compile (refresh manifest.json for exposures)
+        working-directory: dbt
+        run: ../.venv/bin/dbt compile
+        env:
+          DBT_PROFILES_DIR: .
+          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+          DATABRICKS_HTTP_PATH: ${{ secrets.DATABRICKS_HTTP_PATH }}
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+
+      - name: dbt test (pii_mask_enforced only)
+        working-directory: dbt
+        run: ../.venv/bin/dbt test --select pii_mask_enforced
+        env:
+          DBT_PROFILES_DIR: .
+          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+          DATABRICKS_HTTP_PATH: ${{ secrets.DATABRICKS_HTTP_PATH }}
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+
+      - name: Classification completeness check
+        run: .venv/bin/python scripts/check_classification_completeness.py
+        env:
+          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+          DATABRICKS_HTTP_PATH: ${{ secrets.DATABRICKS_HTTP_PATH }}
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}

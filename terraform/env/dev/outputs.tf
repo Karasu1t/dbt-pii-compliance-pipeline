@@ -1,3 +1,3 @@
-output "catalog_name" {
-  value = module.catalog.catalog_name
+output "table_fqn" {
+  value = var.table_fqn
 }
