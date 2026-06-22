@@ -108,17 +108,19 @@ All sample data is generated with `Faker` — this is a portfolio project, not a
 │   │   └── exposures.yml              # marks which models are public-facing
 │   ├── seeds/                         # Faker-generated synthetic customer data
 │   ├── tests/
-│   │   └── pii_mask_enforced.sql      # generic test: PII-tagged + public + unmasked → fail
+│   │   └── pii_mask_enforced.sql      # singular test: cross-checks column_tags (mask_required) against column_masks for exposed models → fail on any gap
 │   └── macros/
+│       ├── create_catalog.sql         # idempotent CREATE CATALOG IF NOT EXISTS, run via dbt run-operation
+│       └── drop_catalog.sql           # idempotent DROP CATALOG IF EXISTS ... CASCADE, for environment resets
 ├── src/
 │   ├── pii_classifier/                # Anthropic API classification logic — used only by pii_compliance_check.yml in CI; /pii-scan classifies natively in-session
-│   └── catalog/                       # Unity Catalog tagging / masking application via Databricks SDK
+│   └── catalog/                       # apply_tags.py (pii_category + mask_required tags) / apply_masks.py (mask function creation + SET MASK), both via Databricks SQL connector reusing dbt's profiles.yml
 ├── terraform/
 │   ├── modules/databricks/
-│   │   ├── unity_catalog_tags/
-│   │   ├── masking_policies/
-│   │   └── sql_warehouse/
-│   └── env/dev/
+│   │   ├── catalog/                   # null_resource + local-exec → dbt run-operation create_catalog_if_not_exists
+│   │   ├── unity_catalog_tags/        # null_resource + local-exec → src/catalog/apply_tags.py
+│   │   └── masking_policies/          # null_resource + local-exec → src/catalog/apply_masks.py
+│   └── env/dev/                       # provider.tf, variables.tf, main.tf wiring the 3 modules together
 ├── tests/                             # Python unit tests for src/
 ├── scripts/                           # synthetic data generation, local setup helpers
 ├── .github/workflows/
@@ -147,6 +149,9 @@ Tags and column masks live next to the data itself and are enforced at query tim
 **Why a dbt test as the enforcement gate, not just a one-time scan?**
 Models change constantly. A one-time classification goes stale the moment a column is added. A dbt test re-validates on every run, so drift is caught the same way a broken data contract would be.
 
+**Why is there a separate `mask_required` tag instead of just checking `pii_category`?**
+Early on, `pii_mask_enforced` checked any non-`not_pii` tag against active masks — and it correctly failed on `gender`, which is tagged `quasi_identifier` but deliberately left unmasked (masking `postal_code` + `birth_date` already breaks the re-identification combination; masking `gender` too would cost aggregate utility for no real risk reduction). The test had no way to distinguish "an intentional exception" from "an undetected gap" — both looked identical. `mask_required` (set alongside `pii_category` by the same tagging step) makes that judgment call an explicit, queryable fact in Unity Catalog instead of leaving it as an artifact of whatever the classification JSON happened to say.
+
 **Why does `src/pii_classifier` call the Anthropic API only from CI, not from `/pii-scan`?**
 `/pii-scan` runs inside a Claude Code session, where the classification is just Claude Code reasoning over the data directly — already covered by that session, no extra billing. CI is unattended (no Claude Code session to lean on when a PR is opened), so `pii_compliance_check.yml` is the one place that genuinely needs its own `ANTHROPIC_API_KEY`. Routing both paths through the same API call would have been redundant spend for no added accuracy.
 
@@ -158,3 +163,6 @@ No — and it shouldn't claim that. GDPR's own standard (Art. 32) is "appropriat
 
 **Why Delta Lake with UniForm instead of native Iceberg?**
 Unity Catalog's governance features (tags, masking, lineage) are native to Delta Lake. UniForm exposes the same tables as Iceberg-readable without giving up that governance layer — useful in a multi-engine context where non-Databricks engines need read access.
+
+**Why does Terraform call Python scripts instead of using native `databricks_catalog` / tag / mask resources?**
+The native `databricks_catalog` resource failed against this workspace with "Metastore storage root URL does not exist" — it expects an explicit managed storage location that isn't worth provisioning for a portfolio dev catalog, and Unity Catalog column tags/masks don't have mature native Terraform resources yet either way. Rather than fight the provider or hand-roll equivalent HCL for what the SQL already does correctly (`CREATE CATALOG IF NOT EXISTS`, verified working via the dbt macro), every module here is `null_resource` + `local-exec` calling the same scripts `/pii-scan` uses interactively — one source of truth instead of three.

@@ -47,10 +47,10 @@ Each step shows the exact diff and asks `Proceed? (y/n)` before making any chang
 | Step | Target | Purpose |
 |------|--------|---------|
 | 1/8 | Branch creation | `feature/{YYYYMMDD}/pii_scan_{model_name}` from `dev` |
-| 2/8 | `terraform/modules/databricks/unity_catalog_tags/` | Unity Catalog column tag definitions (`pii_category`, `quasi_identifier_group`) |
-| 3/8 | `terraform/modules/databricks/masking_policies/` | Column masking function assignment for confirmed PII exposed in public marts |
-| 4/8 | `dbt/models/**/schema.yml` | Column-level `meta.pii` / `meta.pii_category` annotations — single source of truth read by dbt tests |
-| 5/8 | `dbt/tests/pii_mask_enforced.sql` | Generic dbt test: fails if a `meta.pii: true` column in a public-exposed model lacks an active mask |
+| 2/8 | `terraform/modules/databricks/unity_catalog_tags/` | Unity Catalog column tags: `pii_category` (classification) and `mask_required` (true/false — makes a deliberate "tagged as risk but intentionally left unmasked" call explicit, e.g. `gender`) |
+| 3/8 | `terraform/modules/databricks/masking_policies/` | Column masking function assignment for columns where `mask_required = true` |
+| 4/8 | `dbt/models/**/schema.yml` | Column-level documentation only — the actual enforcement source of truth is the Unity Catalog tags applied in step 2, not schema.yml |
+| 5/8 | `dbt/tests/pii_mask_enforced.sql` | Singular dbt test: cross-references `information_schema.column_tags` (`mask_required = true`) against `information_schema.column_masks` for models listed in `exposures.yml` — fails if any tagged column lacks an active mask |
 | 6/8 | `dbt/models/exposures.yml` | Marks the model as public-facing if newly dashboard/BI-exposed |
 | 7/8 | `dbt test` (local run) | Validates the new test passes against the live warehouse |
 | 8/8 | Commit + PR | Opens PR against `dev`, triggers Terraform apply + dbt build + PII compliance check automatically |

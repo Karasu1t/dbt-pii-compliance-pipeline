@@ -1,5 +1,17 @@
 version: 2
 
 # Populated by /pii-scan when a model is confirmed as public-facing
-# (BI tool / dashboard exposed). Empty until the first scan runs.
-exposures: []
+# (BI tool / dashboard exposed).
+exposures:
+  - name: customer_360_dashboard
+    type: dashboard
+    maturity: medium
+    description: >
+      Customer 360 dashboard consumed by sales/support — this is the model
+      that actually reaches a non-engineer's screen, so it's the one PII
+      masking must hold for.
+    owner:
+      name: Data Platform Team
+      email: data-platform@example.com
+    depends_on:
+      - ref('marts_customer_360')

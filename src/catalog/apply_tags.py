@@ -56,12 +56,20 @@ def apply_column_tags(table_fqn: str, columns: list[dict]) -> None:
             for col in columns:
                 if col["classification"] == "not_pii":
                     continue
+                # mask_required makes a deliberate "tagged as risk but left
+                # unmasked" decision (e.g. gender, low cardinality alone)
+                # explicit and queryable, instead of leaving the dbt test to
+                # treat it as an undetected gap.
+                mask_required = "true" if col.get("mask_strategy", "none") != "none" else "false"
                 stmt = (
                     f"ALTER TABLE {table_fqn} ALTER COLUMN {col['column']} "
-                    f"SET TAGS ('pii_category' = '{col['classification']}')"
+                    f"SET TAGS ('pii_category' = '{col['classification']}', 'mask_required' = '{mask_required}')"
                 )
                 cursor.execute(stmt)
-                print(f"tagged {table_fqn}.{col['column']} -> pii_category={col['classification']}")
+                print(
+                    f"tagged {table_fqn}.{col['column']} -> "
+                    f"pii_category={col['classification']}, mask_required={mask_required}"
+                )
 
 
 if __name__ == "__main__":
