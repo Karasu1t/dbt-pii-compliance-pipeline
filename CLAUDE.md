@@ -8,7 +8,7 @@ Always respond in English in this project.
 
 A pipeline that semi-automates GDPR-driven PII governance for a dbt project running on Databricks.
 - dbt (dbt-databricks) → Databricks Unity Catalog → Delta Lake (UniForm / Iceberg-readable)
-- AI classification happens in exactly one place: interactively, inside a Claude Code session, via `/pii-scan`. This is a **developer-time skill**, not a CI step — there is no Anthropic API usage anywhere in this repo, and no `ANTHROPIC_API_KEY` is needed.
+- AI judgment happens in exactly one place: interactively, inside a Claude Code session, via `/pii-scan`. This is a **developer-time skill**, not a CI step — there is no Anthropic API usage anywhere in this repo, and no `ANTHROPIC_API_KEY` is needed. Within that one place, it runs twice: Phase 1 classifies columns/combinations on raw sample data *before* anything is masked, and STEP 8/9 reviews the real masked output afterward for residual risk or a PII pattern Phase 1 missed.
 - CI/CD's job is verifying that what `/pii-scan` already decided is actually complete and actually enforced — both are deterministic set-comparison / metadata checks, not classification judgment, so no AI is involved:
   - **Completeness**: does every live column in an exposed table have a classification entry? (`scripts/check_classification_completeness.py`)
   - **Enforcement**: does every column tagged `mask_required = true` have an active Unity Catalog mask? (`dbt/tests/pii_mask_enforced.sql`)
@@ -52,9 +52,10 @@ Each step shows the exact diff and asks `Proceed? (y/n)` before making any chang
 | 3/8 | `terraform/env/dev/variables.tf` | Only if `{model_name}`'s table differs from the currently-configured `table_fqn` — this setup manages one table at a time |
 | 4/8 | `dbt/models/**/schema.yml` | Column-level documentation only — the actual enforcement source of truth is the Unity Catalog tags applied in step 6, not schema.yml |
 | 5/8 | `dbt/models/exposures.yml` | Marks the model as public-facing if newly dashboard/BI-exposed |
-| 6/8 | `terraform plan` / `apply` | Applies the tags and masks for real — nothing for STEP 7 to check until this runs. **Prerequisite: `{table_fqn}` must already exist** (`dbt seed && dbt run` first if unsure) — tags/masks layer onto dbt-managed tables, they don't create them |
-| 7/8 | `dbt test --select pii_mask_enforced` (local run) | Already covers every model in `exposures.yml` dynamically — nothing to create, just run it |
-| 8/8 | Commit + PR | Opens PR against `dev`, triggers `dbt_build.yml` + `terraform_apply.yml` + `governance_check.yml` automatically — all three are deterministic checks, no AI involved at this stage |
+| 6/9 | `terraform plan` / `apply` | Applies the tags and masks for real — nothing for STEP 7 to check until this runs. **Prerequisite: `{table_fqn}` must already exist** (`dbt seed && dbt run` first if unsure) — tags/masks layer onto dbt-managed tables, they don't create them |
+| 7/9 | `dbt test --select pii_mask_enforced` (local run) | Already covers every model in `exposures.yml` dynamically — nothing to create, just run it. Deterministic: checks that a mask is *attached*, not what it actually outputs |
+| 8/9 | Review live data (`scripts/sample_live_table.py {table_fqn} --limit 100`) | The second and last place AI judgment runs: pulls real masked rows and checks for residual re-identification risk metadata can't see, or a PII pattern Phase 1 missed. Advisory, not a hard gate — findings can send the workflow back to STEP 2 or be accepted and proceeded past |
+| 9/9 | Commit + PR | Opens PR against `dev`, triggers `dbt_build.yml` + `terraform_apply.yml` + `governance_check.yml` automatically — all three are deterministic checks, no AI involved at this stage |
 
 ---
 

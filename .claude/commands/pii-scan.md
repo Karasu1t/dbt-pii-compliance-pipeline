@@ -33,19 +33,29 @@ This log is used in the Post-Workflow improvement step.
 
 Arguments: $ARGUMENTS
 
+If an argument is provided, use it directly and skip to validation below.
+
+Otherwise, list every model found under `dbt/models/staging/` and `dbt/models/marts/`, numbered, and prompt:
 ```
 Which dbt model should be scanned for PII?
-  → /pii-scan {model_name}   e.g. /pii-scan marts_customer_360
+  1. stg_customers
+  2. stg_orders
+  3. marts_customer_360
 
-Enter the model name:
+Enter a number or model name:
 ```
 
-If an argument is provided, use it directly. Otherwise wait for input.
+Accept either a number (resolve it to the corresponding model in the list above) or a model name typed directly.
 
 Validate the model exists under `dbt/models/staging/` or `dbt/models/marts/`. If not found:
 ```
 ❌ Model '{model_name}' not found under dbt/models/staging/ or dbt/models/marts/.
-   Available models: {list}
+   Available models:
+     1. stg_customers
+     2. stg_orders
+     3. marts_customer_360
+
+Enter a number or model name:
 ```
 
 ---
@@ -128,10 +138,10 @@ Only `y` moves forward. Track which files were changed at each step to enable ro
 
 ---
 
-### STEP 1/8: Create working branch
+### STEP 1/9: Create working branch
 
 ```
-[STEP 1/8] Create branch
+[STEP 1/9] Create branch
   Current branch : {current_branch}
   → {if not dev: "switching to dev first" / if dev: "creating from here"}
   New branch     : feature/{YYYYMMDD}/pii_scan_{model_name}
@@ -142,10 +152,10 @@ Proceed? (y/n/back/all back)
 
 ---
 
-### STEP 2/8: src/catalog/classification_{model_name}.json
+### STEP 2/9: src/catalog/classification_{model_name}.json
 
 ```
-[STEP 2/8] src/catalog/classification_{model_name}.json
+[STEP 2/9] src/catalog/classification_{model_name}.json
   Diff:
     {full classification JSON: columns[] with classification/gdpr_basis/confidence/reasoning/mask_strategy,
      plus quasi_identifier_groups[]}
@@ -160,13 +170,13 @@ hand-edited per model.
 
 ---
 
-### STEP 3/8: terraform/env/dev/variables.tf
+### STEP 3/9: terraform/env/dev/variables.tf
 
 Only applies if `{model_name}`'s table differs from the current `table_fqn` — this Terraform setup manages
 **one table at a time**. If it's the same table already configured, skip with no change.
 
 ```
-[STEP 3/8] terraform/env/dev/variables.tf
+[STEP 3/9] terraform/env/dev/variables.tf
   Assessment : {no change — already configured for this table / updating table_fqn and classification_json_path}
   {diff if changing}
 Proceed? (y/n/back/all back)
@@ -176,12 +186,12 @@ Proceed? (y/n/back/all back)
 
 ---
 
-### STEP 4/8: dbt/models/{staging|marts}/schema.yml
+### STEP 4/9: dbt/models/{staging|marts}/schema.yml
 
 Documentation only — Unity Catalog tags (applied in STEP 6) are the actual enforcement source of truth, not this file.
 
 ```
-[STEP 4/8] dbt/models/{staging|marts}/schema.yml
+[STEP 4/9] dbt/models/{staging|marts}/schema.yml
   Diff:
     {column descriptions noting PII status, for human readability in dbt docs}
 Proceed? (y/n/back/all back)
@@ -191,12 +201,12 @@ Proceed? (y/n/back/all back)
 
 ---
 
-### STEP 5/8: dbt/models/exposures.yml
+### STEP 5/9: dbt/models/exposures.yml
 
 Only applies if the model is public-facing and not already listed.
 
 ```
-[STEP 5/8] dbt/models/exposures.yml
+[STEP 5/9] dbt/models/exposures.yml
   Assessment : {already listed, no change / adding new exposure entry}
   {if adding: diff}
 Proceed? (y/n/back/all back)
@@ -206,7 +216,7 @@ Proceed? (y/n/back/all back)
 
 ---
 
-### STEP 6/8: terraform plan / apply
+### STEP 6/9: terraform plan / apply
 
 Applies the tags and masks for real — `pii_mask_enforced.sql` (STEP 7) has nothing to check against until this runs.
 
@@ -217,7 +227,7 @@ on top of dbt-managed tables; they don't create them. If unsure whether the tabl
 `dbt seed --project-dir ./dbt && dbt run --project-dir ./dbt` first — cheap and idempotent if it already does.
 
 ```
-[STEP 6/8] terraform plan / apply
+[STEP 6/9] terraform plan / apply
   Pre-check : {table_fqn} exists in Databricks? {yes / no — ran dbt seed + dbt run first}
   Command   : terraform -chdir=terraform/env/dev apply
   {show plan summary — resources to add/change}
@@ -229,13 +239,13 @@ Proceed? (y/n/back/all back)
 
 ---
 
-### STEP 7/8: Run `dbt test` locally
+### STEP 7/9: Run `dbt test` locally
 
 `dbt/tests/pii_mask_enforced.sql` already exists and dynamically covers every model listed in `exposures.yml` —
 nothing to create here, just run it.
 
 ```
-[STEP 7/8] Run dbt test
+[STEP 7/9] Run dbt test
   Command : dbt test --select pii_mask_enforced
   {show output summary — pass/fail per test}
 Proceed? (y/n/back/all back)
@@ -246,10 +256,44 @@ If tests fail, report the failure and do not proceed to STEP 8 until resolved.
 
 ---
 
-### STEP 8/8: Commit & open PR
+### STEP 8/9: Review live data for residual risk
+
+By this point the masks from STEP 6 are live, and STEP 7 already confirmed every `mask_required` column has
+*some* mask attached. This step checks something metadata can't: whether the actual masked output still
+leaks something, or contains a PII pattern the Phase 1 classification didn't catch. This is the same kind of
+judgment Phase 1 made on raw sample data, applied here to the real masked output instead.
+
+1. Run `python scripts/sample_live_table.py {table_fqn} --limit 100` — prints column headers and 100 live rows,
+   exactly as any ordinary query against `{table_fqn}` would see them today (i.e. already masked).
+2. Review the output, column by column, against the Phase 1 classification:
+   - For every masked column: does anything in this sample still look identifiable? (a generalized
+     `postal_code` narrow enough to isolate one row, a quasi-identifier combination that's still too
+     specific even after generalization, a redaction that missed a row)
+   - For every column, masked or not: does anything in the actual values look like a PII pattern the
+     original classification missed?
 
 ```
-[STEP 8/8] Commit & open PR
+[STEP 8/9] Review live data for residual risk
+  Command : python scripts/sample_live_table.py {table_fqn} --limit 100
+  Findings:
+    {✅ no residual risk or new PII pattern found in this sample
+     — or —
+     ⚠️ {specific finding, with the column and the row that triggered it}}
+Proceed? (y/n/back/all back/or describe what you want)
+```
+
+A flagged finding doesn't automatically block STEP 9 — discuss it with the user. Options are revising the
+mask strategy (`back` all the way to STEP 2) or accepting it and proceeding (e.g. a finding that's an
+artifact of small synthetic sample size rather than a real gap).
+
+`back` → return to STEP 7 (no file revert needed, this step only reads data).
+
+---
+
+### STEP 9/9: Commit & open PR
+
+```
+[STEP 9/9] Commit & open PR
   Changed files ({N}):
     {list of modified files}
   Commit message : {Conventional Commits format}
@@ -273,7 +317,7 @@ If tests fail, report the failure and do not proceed to STEP 8 until resolved.
 Proceed? (y/n/back/all back)
 ```
 
-`back` → return to STEP 7 (no git action needed, nothing committed yet).
+`back` → return to STEP 8 (no git action needed, nothing committed yet).
 
 If y → run `git add` → `commit` → `push` → `gh pr create` and display the PR URL.
 
