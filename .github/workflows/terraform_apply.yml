@@ -30,6 +30,24 @@ jobs:
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v3
 
+      # No remote backend (Terraform Cloud / S3 / GCS) is provisioned for
+      # this portfolio project, so state would otherwise be empty on every
+      # run. Without it, a second apply against an unchanged commit (a
+      # manual re-run, a duplicate webhook delivery) fails non-idempotently:
+      # the native databricks_entity_tag_assignment resources in
+      # unity_catalog_tags error with "already exists" instead of a no-op
+      # plan, because Terraform has no record of having created them
+      # already. restore-keys always falls back to the most recent save
+      # under the tfstate-dev- prefix; the exact-match key (this run's id)
+      # is unique on every run so the later save step never collides.
+      - name: Restore Terraform state cache
+        uses: actions/cache/restore@v4
+        with:
+          path: terraform/env/dev/terraform.tfstate
+          key: tfstate-dev-${{ github.run_id }}
+          restore-keys: |
+            tfstate-dev-
+
       - name: Terraform Init
         working-directory: terraform/env/dev
         run: terraform init
@@ -48,3 +66,14 @@ jobs:
           DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
           DATABRICKS_HTTP_PATH: ${{ secrets.DATABRICKS_HTTP_PATH }}
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+
+      # Saved even if apply fails partway through — a partial state (some
+      # resources created before the failure) must still be remembered,
+      # otherwise the next run repeats the same "already exists" error for
+      # whatever succeeded before the failure point.
+      - name: Save Terraform state cache
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: terraform/env/dev/terraform.tfstate
+          key: tfstate-dev-${{ github.run_id }}

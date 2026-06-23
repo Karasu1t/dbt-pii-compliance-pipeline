@@ -16,7 +16,7 @@ In a real data platform, new dbt models and columns appear constantly. The tradi
 
 This is exactly the kind of judgment-heavy, easy-to-forget work that causes real compliance incidents — not because anyone was careless, but because nothing forces the check at the moment a model changes.
 
-**The goal**: classify PII risk (including multi-column re-identification risk) with AI assistance and human review at development time, then enforce and verify it continuously in CI with nothing but deterministic checks — classification is a judgment call made once per change; checking that the judgment was actually applied and didn't drift is not.
+**The goal**: classify PII risk (including multi-column re-identification risk) with AI assistance and human review at development time — both up front on raw sample data, and again afterward against the real masked output — then enforce and verify it continuously in CI with nothing but deterministic checks. The judgment calls happen once per change, inside `/pii-scan`, never in CI; checking that the judgment was actually applied and didn't drift is a separate, deterministic problem.
 
 ---
 
@@ -33,14 +33,14 @@ Invoked inside a Claude Code session:
 
 **Phase 1 — Classify** (no files touched): Claude reads the model's compiled columns plus a bounded data sample, classifies each column (not PII / direct identifier / GDPR Art. 9 special category / quasi-identifier), and checks column **combinations** for re-identification risk — e.g. `postal_code` + `birth_date` + `gender` is low-risk individually but identifying together. The full classification table is shown for approval before Phase 2 begins.
 
-**Phase 2 — Execute**: Each of the 8 steps is shown as a diff with a `y/n` prompt. Nothing is written until confirmed.
+**Phase 2 — Execute**: Each of the 9 steps is shown as a diff with a `y/n` prompt. Nothing is written until confirmed. STEP 8/9 is the second and last place AI runs — after masks are live, it reviews a real sample of the masked table for residual risk metadata checks can't see.
 
 ```mermaid
 flowchart TD
     A["/pii-scan marts_customer_360\n(Claude Code session — the only place AI runs)"] --> B["Phase 1: classify columns + combinations · approve table"]
     B --> C{Confirmed?}
     C -- n --> B
-    C -- y --> D["Phase 2 — write classification_{model}.json,\nupdate exposures.yml/schema.yml,\nterraform apply, dbt test, commit + PR"]
+    C -- y --> D["Phase 2 — write classification_{model}.json,\nupdate exposures.yml/schema.yml, terraform apply,\ndbt test, review live masked data, commit + PR"]
     D --> E["PR opened → dev"]
     E --> F["dbt_build.yml\n(seed + run + test, excluding pii_mask_enforced)"]
     F --> G["terraform_apply.yml\n(tags + masks go live — needs dbt_build's tables to exist first)"]
@@ -55,6 +55,18 @@ Note the chain is **sequential**, not parallel-then-join: `terraform_apply` tags
 ### Auto-Generated PR
 
 Claude creates the PR body automatically, summarizing the classification and every file touched. CI then re-checks that classification against live Databricks state with a plain script — no LLM call, just "does every column that exists today have an entry in the JSON."
+
+### Masking in Action
+
+Querying `marts_customer_360` directly in the Databricks SQL editor, before and after `/pii-scan` runs:
+
+**Before** — raw values, fully visible:
+
+![Before masking](img/masked_before.jpg)
+
+**After** — `direct_identifier` columns (`full_name`, `email`, `phone_number`) fully redacted; `quasi_identifier` columns (`postal_code`, `birth_date`) generalized instead of redacted, so regional/age-cohort analysis still works on the masked data:
+
+![After masking](img/masked_after.jpg)
 
 ---
 
@@ -76,6 +88,10 @@ flowchart LR
     JSON --> CI
     DBT --> CI
 ```
+
+The same dependency graph, as dbt's own `dbt docs` lineage view sees it (`raw_customers`/`raw_orders` → staging → `marts_customer_360` → the `customer_360_dashboard` exposure):
+
+![dbt docs lineage graph](img/docs.jpg)
 
 ### Why synthetic data
 
@@ -127,7 +143,8 @@ All sample data is generated with `Faker` — this is a portfolio project, not a
 ├── tests/                             # Python unit tests for src/
 ├── scripts/
 │   ├── generate_sample_data.py        # synthetic data generation
-│   └── check_classification_completeness.py  # deterministic CI check — no AI, just set comparison against live Databricks columns
+│   ├── check_classification_completeness.py  # deterministic CI check — no AI, just set comparison against live Databricks columns
+│   └── sample_live_table.py           # plain fetch-and-print, used by /pii-scan STEP 8/9 — the judgment happens in the Claude Code session, not here
 ├── .github/workflows/
 │   ├── ci.yml                         # pull_request trigger, chains the 3 reusable workflows below sequentially (needs:)
 │   ├── dbt_build.yml                  # workflow_call — seed + run + test, excluding pii_mask_enforced
@@ -175,6 +192,17 @@ The dependency chain has an edge in both directions: `dbt seed`/`dbt run` can't 
 
 **Why Delta Lake with UniForm instead of native Iceberg?**
 Unity Catalog's governance features (tags, masking, lineage) are native to Delta Lake. UniForm exposes the same tables as Iceberg-readable without giving up that governance layer — useful in a multi-engine context where non-Databricks engines need read access.
+
+**`pii_mask_enforced.sql` already checks enforcement — why does `/pii-scan` also review live data in STEP 8/9?**
+Because "a mask is attached" and "the masked output is actually safe" are different claims. `pii_mask_enforced.sql` is a metadata check: it joins `column_tags` against `column_masks` and fails if a `mask_required` column has no mask function attached. It cannot tell whether a generalized `postal_code` is still narrow enough to isolate one person in practice, whether a redaction silently misses a row, or whether a free-text column has accumulated a PII pattern since the last classification — all of these still look like "a mask is attached" to a metadata query. STEP 8/9 closes that gap the same way Phase 1 closes the keyword-matching gap: by having Claude actually look at real values (here, the live masked output via `scripts/sample_live_table.py`) instead of trusting that correct-looking metadata means a safe outcome. It's advisory, not a CI gate — the same reasoning that keeps AI out of CI applies here too: this is a judgment call, made once per change, inside the one interactive session, not something to re-run unattended.
+
+**What did actually running STEP 8/9 against live masked data find — and was it acted on?**
+Yes, and the finding is a real limitation of this portfolio's data scale, not a hypothetical. Sampling 100 live rows from `marts_customer_360` after masking showed every `direct_identifier` column correctly redacted with no gaps. But the `postal_code` + `birth_date` + `gender` quasi-identifier group still showed a problem: across the sample, no two rows shared the same (generalized `postal_code` prefix, birth year, `gender`) combination — meaning the generalization wasn't actually collapsing rows together. With ~500 synthetic customers spread across roughly 1,000 possible postal prefixes × ~70 birth years × 2 genders, the bucket space is far larger than the population, so k-anonymity (k≥2) isn't achieved for most rows even after masking — a column-by-column metadata check (`pii_mask_enforced.sql`) can't see this; it only confirms a mask function is attached, not that the chosen generalization actually achieves anonymity at this population size.
+
+This was accepted as a known artifact of synthetic dataset size rather than fed back into STEP 2 to widen the generalization (e.g. 2-digit postal prefix, 5-year birth buckets): at real production scale — thousands of customers per postal prefix instead of roughly one — the same generalization would collapse rows into meaningfully sized groups. Coarsening it further here would mask the actual trade-off (`mask_strategy` granularity vs. dataset size) that STEP 8/9 exists to surface, rather than fix it. The honest takeaway is that STEP 8/9's value isn't "always passes clean" — it's catching exactly this kind of gap that a metadata check structurally cannot, and giving a human the choice to revise or accept it with the reasoning on record.
+
+**Why does `terraform_apply.yml` cache `terraform.tfstate` between runs instead of using a real remote backend?**
+Caught live, not hypothetically: a duplicate `pull_request` webhook delivery fired a second CI run against the same commit, and `terraform_apply` failed with `Tag assignment with tag key mask_required already exists`. No remote backend is configured, so every run started from empty state — the first run created the tag assignments for real in Unity Catalog, and the second run's empty state had no record of that, so its plan tried to create them again instead of seeing a no-op. A real backend (Terraform Cloud, S3, GCS) is the textbook fix, but means provisioning and crediting another external system for a single-developer portfolio project. `actions/cache/restore` + `/save` (keyed `tfstate-dev-${{ github.run_id }}`, falling back via `restore-keys` to the latest prior save) gives the same practical effect — Terraform sees what it already created — without new paid infrastructure. It's a deliberately weaker substitute: no locking, no strong consistency, and GitHub can evict the cache, so a sufficiently long gap between runs could still hit this once more. For this project's actual traffic (sequential CI on a single dev environment), that's an acceptable trade against standing up real remote state for a table few people other than its author will ever touch.
 
 **Why does Terraform call Python scripts instead of using native resources — and is that true for all three modules?**
 No — this needed checking per-resource rather than assuming, and the answer differs by module (verified against the [provider source](https://github.com/databricks/terraform-provider-databricks/tree/main/docs/resources), not assumed):
